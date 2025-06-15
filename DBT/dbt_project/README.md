@@ -19,4 +19,8 @@ pip install dbt-snowflake
 pip install dbt-bigquery
 pip install dbt-postgres
 
+
+# step 3 ....
+
 ```
+
