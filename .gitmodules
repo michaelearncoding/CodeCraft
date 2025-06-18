@@ -10,3 +10,6 @@
 [submodule "CS 246/Ref/2022"]
 	path = CS 246/Ref/2022
 	url = https://github.com/kila097/CS246_Notes
+[submodule "CS 246/Ref/2018"]
+	path = CS 246/Ref/2018
+	url = https://github.com/JohnMai1994/CS246-2018_Fall_Term
