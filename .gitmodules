@@ -7,3 +7,6 @@
 [submodule "CS 246/Ref/2015"]
 	path = CS 246/Ref/2015
 	url = https://github.com/bryan-cho/CS246
+[submodule "CS 246/Ref/2022"]
+	path = CS 246/Ref/2022
+	url = https://github.com/kila097/CS246_Notes
