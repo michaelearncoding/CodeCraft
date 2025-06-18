@@ -4,3 +4,6 @@
 [submodule "CS 246/Ref/cs246e-notes"]
 	path = CS 246/Ref/cs246e-notes
 	url = https://github.com/quanpham0805/cs246e-notes
+[submodule "CS 246/Ref/2015"]
+	path = CS 246/Ref/2015
+	url = https://github.com/bryan-cho/CS246
