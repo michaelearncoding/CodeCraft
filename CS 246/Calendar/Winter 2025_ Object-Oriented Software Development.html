@@ -1,0 +1,2003 @@
+<html lang="en"><head><script id="allow-copy_script" src="chrome-extension://aefehdhdciieocakfobpaaolhipkcpgc/content_scripts/copy.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        Winter 2025:
+        
+        Object-Oriented Software Development
+        
+    </title>
+    
+<style>
+:root{
+    --border-default: rgba(24, 26, 42, 0.3);
+}
+
+.dynamic-component{
+    font-family:  ui-sans-serf, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: rgb(24, 26, 42);
+    text-size-adjust: 100%;
+    line-height: 24px;
+}
+
+
+.dynamic-component .sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+.schedule-info table{
+    border: 1px solid var(--border-default);
+    border-collapse: collapse;
+    width: 100%;
+}
+.schedule-info th, .schedule-info td{
+    border: 1px solid var(--border-default);
+    padding: 0.25rem 0.5rem;
+}
+.schedule-info th{
+    font-weight: bold;
+    text-align: start;
+    vertical-align: top;
+}
+.schedule-info .days-visual{
+    display: inline-flex;
+    gap: 0.1rem;
+}
+.schedule-info .days-visual span{
+    color: #bbb;
+    font-weight: bold;
+}
+.schedule-info .days-visual span.present{
+    color: black;
+}
+.schedule-info .day{
+    margin-left: 0.25rem;
+}
+
+.schedule-info .date-range{
+    font-size: smaller;
+    font-style: italic;
+}
+.schedule-info .section{
+    font-weight: normal;
+}
+.schedule-info .class-type{
+    font-size: smaller;
+}
+.schedule-info a{
+    text-decoration: revert;
+    color: revert;
+}
+.schedule-info .instructor-info{
+    margin: 0.5rem 0;
+    display:flex;
+    flex-direction: column;
+}
+.schedule-info .instructor-info a{
+    font-style: italic;
+    white-space: nowrap;
+    opacity: 0.8;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.schedule-info figcaption{
+    font-size: smaller;
+    text-align: end;
+}
+
+.course-descriptions .description{
+    padding: 0.5rem;
+    border: 1px solid var(--border-default);
+    margin-bottom: 1rem;
+}
+
+.course-descriptions .cd-title{
+    font-size: larger;
+    margin-bottom: 0.5rem;
+}
+
+.course-descriptions .cd-reqs{
+    margin-top: 0.5rem;
+}
+
+</style>
+<style>.UW-header {
+  background-color: black;
+  width: 100%;
+  z-index: 1000;
+  position: relative;
+}
+
+.UW-header>.header-main {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  align-items: center;
+}
+
+.UW-header>.header-main>a {
+  color: white;
+  text-decoration: none;
+}
+
+.UW-header>.header-bar {
+  display: flex;
+}
+
+.UW-header-print {
+  display: none;
+}
+
+.UW-header>.header-bar>div {
+  height: .625rem;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.UW-header .uw-c1 {
+  background-color: #f2eda8;
+}
+
+.UW-header .uw-c2 {
+  background-color: #fae100;
+}
+
+.UW-header .uw-c3 {
+  background-color: #fed34c;
+}
+
+.UW-header .uw-c4 {
+  background-color: #eaab00;
+}
+
+.outline-title h1 {
+  margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1ch;
+  align-items: baseline;
+}
+
+
+.outline-title-full{
+  font-size: 60%;
+  width: 100%;
+}
+
+.outline-term{
+  opacity: 0.6;
+  font-size: 80%;
+}
+.outline-sections{
+  opacity: 0.6;
+  font-size: 40%;
+}
+
+#is-student-message {
+  background-color: #f7f7f7;
+  padding: 24px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+details>summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.UW-footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: black;
+  color: white;
+  font-size: small;
+  margin-top: 4rem;
+}
+
+.multitable-blank,
+.no-public-access {
+  font-style: italic;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: #dddee3dd;
+}
+
+.multitable-header{
+  font-weight: bold;
+  font-size: 110%;
+  margin-bottom: 0.3rem;
+}
+
+
+main,
+#revisions,
+.clamp-width {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  max-width: 72rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+#revisions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+
+#revision-history {
+  position: relative;
+  z-index: 100;
+}
+
+#revision-history>details {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 34ch;
+}
+/* Phones */
+@media (max-width: 600px) {
+  #revisions{
+    grid-template-columns: 1fr;
+  }
+  #revision-history>details {
+    width: 100%;
+    position: relative !important;
+  }
+}
+
+#revision-history>details>summary {
+  cursor: pointer;
+}
+
+#revision-history>details .revision-active {
+  font-weight: bold;
+}
+
+#revision-history>details .revision-active::after {
+  content: "*";
+}
+
+#revision-history ul {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  padding-left: 2rem;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+#revision-warning {
+  grid-column: span 2;
+  background-color: #f3efc5;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 1rem;
+}
+
+#revision-warning>p {
+  margin: 0;
+}
+
+.outline-toc {
+  padding-left: 0;
+}
+
+
+
+/* Optional: Add indentation for nested lists */
+.outline-toc ul {
+  padding-left: 2rem;
+  /* list-style: decimal; */
+}
+
+.outline-toc li {
+  margin-bottom: 0.1rem;
+}
+
+/* .outline-toc ul ul{
+  list-style: lower-alpha;
+}
+
+.outline-toc ul ul ul{
+  list-style: lower-roman;
+}
+.outline-toc ul ul ul ul{
+  list-style: disc;
+} */
+.outline-toc a {
+  color: inherit;
+}
+
+.outline-references-links {
+  display: none;
+}
+
+.outline-toc h2 {
+  margin-top: 0;
+}
+
+
+body {
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  line-height: 1.4285;
+  font-weight: 400;
+  font-size: 12pt;
+  color: #000000;
+  background-color: #ffffff;
+}
+
+hr {
+  margin: 1rem 0;
+  color: inherit;
+  opacity: 0.25;
+}
+
+h6,
+.h6,
+h5,
+.h5,
+h4,
+.h4,
+h3,
+.h3,
+h2,
+.h2,
+h1,
+.h1 {
+  margin-top: 1.4em;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--bs-heading-color);
+  margin-left: -8px;
+}
+
+h1,
+.h1 {
+  font-size: calc(1.475rem + 1.5vw);
+}
+
+@media (min-width: 1200px) {
+
+  h1,
+  .h1 {
+    font-size: 2.4rem;
+  }
+}
+
+h2,
+.h2 {
+  font-size: calc(1.1rem + 0.3vw);
+  font-weight: bold;
+}
+
+@media (min-width: 1200px) {
+
+  h2,
+  .h2 {
+    font-size: 1.6rem;
+  }
+}
+
+h3,
+.h3 {
+  font-size: calc(1rem + 0.2vw);
+}
+
+@media (min-width: 1200px) {
+
+  h3,
+  .h3 {
+    font-size: 1.4rem;
+  }
+}
+
+h4,
+.h4 {
+  font-size: calc(0.875rem + 0.15vw);
+}
+
+@media (min-width: 1200px) {
+
+  h4,
+  .h4 {
+    font-size: 1.2rem;
+  }
+}
+
+h5,
+.h5 {
+  font-size: calc(0.75rem + 0.1vw);
+}
+
+@media (min-width: 1200px) {
+
+  h5,
+  .h5 {
+    font-size: 1rem;
+  }
+}
+
+h6,
+.h6 {
+  font-size: calc(0.625rem + 0.05vw);
+}
+
+@media (min-width: 1200px) {
+
+  h6,
+  .h6 {
+    font-size: 0.875rem;
+  }
+}
+
+/* h3, .h3 {
+font-size: calc(1.3rem + 0.6vw);
+}
+@media (min-width: 1200px) {
+h3, .h3 {
+  font-size: 1.75rem;
+}
+}
+
+h4, .h4 {
+font-size: calc(1.275rem + 0.3vw);
+}
+@media (min-width: 1200px) {
+h4, .h4 {
+  font-size: 1.5rem;
+}
+}
+
+h5, .h5 {
+font-size: 1.25rem;
+}
+
+h6, .h6 {
+font-size: 1rem;
+}
+.html-block {
+    overflow-wrap: break-word;
+} */
+
+.html-block .table,
+.html-block table {
+  height: unset !important;
+  width: 100% !important;
+}
+
+.html-block table td,
+.html-block table th,
+.html-block table tr {
+  height: unset !important;
+  width: unset !important;
+  padding: 0.25rem 0.5rem !important;
+}
+
+figure, .multitable-container{
+  overflow-x: auto;
+  max-width: 100%;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+
+.schedule-info table {
+  margin-bottom: 0;
+}
+
+.dynamic-component {
+  font-family: inherit;
+  line-height: inherit;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+abbr[title] {
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+  cursor: help;
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+}
+
+address {
+  margin-bottom: 1rem;
+  font-style: normal;
+  line-height: inherit;
+}
+
+ol,
+ul {
+  padding-left: 2rem;
+}
+
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-bottom: 0;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+
+blockquote {
+  margin: 0 0 1rem;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+small,
+.small {
+  font-size: 0.875em;
+}
+
+mark,
+.mark {
+  padding: 0.1875em;
+  color: var(--bs-highlight-color);
+  background-color: var(--bs-highlight-bg);
+}
+
+sub,
+sup {
+  position: relative;
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--bs-font-monospace);
+  font-size: 1em;
+}
+
+
+pre:has(code) {
+  font-family: monospace;
+  color: white;
+  background-color: #181a2a;
+  overflow-x: auto;
+
+  font-weight: 400;
+  font-size: 0.8em;
+  margin-top: 1.7142857em;
+  margin-bottom: 1.7142857em;
+  border-radius: 0.375rem;
+  padding-top: 0.8571429em;
+  padding-right: 1.1428571em;
+  padding-bottom: 0.8571429em;
+  padding-left: 1.1428571em;
+}
+
+a>code {
+  color: inherit;
+}
+
+/* The last paragraph in any td or th should have no margin-bottom */
+th>p:last-child,
+td>p:last-child {
+  margin-bottom: 0;
+}
+
+/* TH needs a bg color (slightly transparent grey */
+th {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+table {
+  caption-side: bottom;
+  border-collapse: collapse;
+  border: 1px solid var(--border-default);
+  margin-bottom: 1rem;
+  width: 100%;
+  min-width: 360px;
+}
+
+td, th{
+  min-width: 12ch;
+}
+th {
+  text-align: inherit;
+  text-align: -webkit-match-parent;
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-color: inherit;
+  border-style: solid;
+  border: 1px solid var(--border-default);
+  padding: 0.25rem 0.5rem;
+}
+
+
+
+.table {
+  --bs-table-color-type: initial;
+  --bs-table-bg-type: initial;
+  --bs-table-color-state: initial;
+  --bs-table-bg-state: initial;
+  --bs-table-color: var(--bs-emphasis-color);
+  --bs-table-bg: var(--bs-body-bg);
+  --bs-table-border-color: var(--bs-border-color);
+  --bs-table-accent-bg: transparent;
+  --bs-table-striped-color: var(--bs-emphasis-color);
+  --bs-table-striped-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
+  --bs-table-active-color: var(--bs-emphasis-color);
+  --bs-table-active-bg: rgba(var(--bs-emphasis-color-rgb), 0.1);
+  --bs-table-hover-color: var(--bs-emphasis-color);
+  --bs-table-hover-bg: rgba(var(--bs-emphasis-color-rgb), 0.075);
+  width: 100%;
+  margin-bottom: 1rem;
+  vertical-align: top;
+  border-color: var(--bs-table-border-color);
+}
+
+.table> :not(caption)>*>* {
+  padding: 0.5rem 0.5rem;
+  color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
+  background-color: var(--bs-table-bg);
+  /*
+border-bottom-width: var(--bs-border-width);
+box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
+*/
+}
+
+.table>tbody {
+  vertical-align: inherit;
+}
+
+.table>thead {
+  vertical-align: bottom;
+}
+
+.table-group-divider {
+  border-top: calc(var(--bs-border-width) * 2) solid currentcolor;
+}
+
+.caption-top {
+  caption-side: top;
+}
+
+.table-sm> :not(caption)>*>* {
+  padding: 0.25rem 0.25rem;
+}
+
+.table-bordered> :not(caption)>* {
+  border-width: var(--bs-border-width) 0;
+}
+
+.table-bordered> :not(caption)>*>* {
+  border-width: 0 var(--bs-border-width);
+}
+
+.table-borderless> :not(caption)>*>* {
+  border-bottom-width: 0;
+}
+
+.table-borderless> :not(:first-child) {
+  border-top-width: 0;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+  --bs-table-color-type: var(--bs-table-striped-color);
+  --bs-table-bg-type: var(--bs-table-striped-bg);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+@media (max-width: 575.98px) {
+  .table-responsive-sm {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .table-responsive-md {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .table-responsive-lg {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .table-responsive-xl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1399.98px) {
+  .table-responsive-xxl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media print {
+  body{
+    font-size: 10pt;
+  }
+  @page {
+    margin: 10mm 10mm 10mm 10mm;
+  }
+
+  /* All your print styles go here */
+  .UW-footer {
+    color: black;
+    background-color: white;
+  }
+
+  .UW-header {
+    display: none;
+  }
+
+  .UW-header-print {
+    display: block;
+  }
+
+  .outline-toc {
+    display: none;
+  }
+
+  .outline-body {
+    padding: 0;
+    margin: 0;
+  }
+
+  figure, .multitable-container{
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  td, th{
+    min-width: initial;
+  }
+
+  h6,
+  .h6,
+  h5,
+  .h5,
+  h4,
+  .h4,
+  h3,
+  .h3,
+  h2,
+  .h2,
+  h1,
+  .h1 {
+    margin-left: 0;
+  }
+
+  a:not(.mailto):after {
+    content: attr(data-link-index);
+    font-weight: normal;
+    vertical-align: super;
+    font-size: small;
+  }
+
+  .outline-references-links {
+    display: block
+  }
+
+  main {
+    margin-left: 8px;
+    margin-right: 0;
+    margin-top: 0;
+    max-width: unset;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    page-break-after: avoid;
+  }
+
+  .no-print,
+  .no-download,
+  #revision-history {
+    display: none;
+  }
+}
+
+/* Some patches for nice styling */
+
+/* Make empty last-child paragraphs disappear */
+div p:last-child:empty {
+  display: none;
+}</style>
+<style>@font-face{font-family:KaTeX_AMS;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_AMS-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_AMS-Regular.woff) format("woff"),url(fonts/KaTeX_AMS-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Caligraphic;font-style:normal;font-weight:700;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Caligraphic-Bold.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Caligraphic-Bold.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Caligraphic;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Caligraphic-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Caligraphic-Regular.woff) format("woff"),url(fonts/KaTeX_Caligraphic-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Fraktur;font-style:normal;font-weight:700;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Fraktur-Bold.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Fraktur-Bold.woff) format("woff"),url(fonts/KaTeX_Fraktur-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Fraktur;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Fraktur-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Fraktur-Regular.woff) format("woff"),url(fonts/KaTeX_Fraktur-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:normal;font-weight:700;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-Bold.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-Bold.woff) format("woff"),url(fonts/KaTeX_Main-Bold.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:italic;font-weight:700;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-BoldItalic.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Main-BoldItalic.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:italic;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-Italic.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-Italic.woff) format("woff"),url(fonts/KaTeX_Main-Italic.ttf) format("truetype")}@font-face{font-family:KaTeX_Main;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Main-Regular.woff) format("woff"),url(fonts/KaTeX_Main-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Math;font-style:italic;font-weight:700;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Math-BoldItalic.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Math-BoldItalic.woff) format("woff"),url(fonts/KaTeX_Math-BoldItalic.ttf) format("truetype")}@font-face{font-family:KaTeX_Math;font-style:italic;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Math-Italic.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Math-Italic.woff) format("woff"),url(fonts/KaTeX_Math-Italic.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:normal;font-weight:700;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_SansSerif-Bold.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_SansSerif-Bold.woff) format("woff"),url(fonts/KaTeX_SansSerif-Bold.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:italic;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_SansSerif-Italic.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_SansSerif-Italic.woff) format("woff"),url(fonts/KaTeX_SansSerif-Italic.ttf) format("truetype")}@font-face{font-family:"KaTeX_SansSerif";font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_SansSerif-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_SansSerif-Regular.woff) format("woff"),url(fonts/KaTeX_SansSerif-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Script;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Script-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Script-Regular.woff) format("woff"),url(fonts/KaTeX_Script-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size1;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size1-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size1-Regular.woff) format("woff"),url(fonts/KaTeX_Size1-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size2;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size2-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size2-Regular.woff) format("woff"),url(fonts/KaTeX_Size2-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size3;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size3-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size3-Regular.woff) format("woff"),url(fonts/KaTeX_Size3-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Size4;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size4-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Size4-Regular.woff) format("woff"),url(fonts/KaTeX_Size4-Regular.ttf) format("truetype")}@font-face{font-family:KaTeX_Typewriter;font-style:normal;font-weight:400;src:url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Typewriter-Regular.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/fonts/fonts/KaTeX_Typewriter-Regular.woff) format("woff"),url(fonts/KaTeX_Typewriter-Regular.ttf) format("truetype")}.katex{font:normal 1.21em KaTeX_Main,Times New Roman,serif;line-height:1.2;text-indent:0;text-rendering:auto}.katex *{-ms-high-contrast-adjust:none!important;border-color:currentColor}.katex .katex-version:after{content:"0.16.11"}.katex .katex-mathml{clip:rect(1px,1px,1px,1px);border:0;height:1px;overflow:hidden;padding:0;position:absolute;width:1px}.katex .katex-html>.newline{display:block}.katex .base{position:relative;white-space:nowrap;width:-webkit-min-content;width:-moz-min-content;width:min-content}.katex .base,.katex .strut{display:inline-block}.katex .textbf{font-weight:700}.katex .textit{font-style:italic}.katex .textrm{font-family:KaTeX_Main}.katex .textsf{font-family:KaTeX_SansSerif}.katex .texttt{font-family:KaTeX_Typewriter}.katex .mathnormal{font-family:KaTeX_Math;font-style:italic}.katex .mathit{font-family:KaTeX_Main;font-style:italic}.katex .mathrm{font-style:normal}.katex .mathbf{font-family:KaTeX_Main;font-weight:700}.katex .boldsymbol{font-family:KaTeX_Math;font-style:italic;font-weight:700}.katex .amsrm,.katex .mathbb,.katex .textbb{font-family:KaTeX_AMS}.katex .mathcal{font-family:KaTeX_Caligraphic}.katex .mathfrak,.katex .textfrak{font-family:KaTeX_Fraktur}.katex .mathboldfrak,.katex .textboldfrak{font-family:KaTeX_Fraktur;font-weight:700}.katex .mathtt{font-family:KaTeX_Typewriter}.katex .mathscr,.katex .textscr{font-family:KaTeX_Script}.katex .mathsf,.katex .textsf{font-family:KaTeX_SansSerif}.katex .mathboldsf,.katex .textboldsf{font-family:KaTeX_SansSerif;font-weight:700}.katex .mathitsf,.katex .textitsf{font-family:KaTeX_SansSerif;font-style:italic}.katex .mainrm{font-family:KaTeX_Main;font-style:normal}.katex .vlist-t{border-collapse:collapse;display:inline-table;table-layout:fixed}.katex .vlist-r{display:table-row}.katex .vlist{display:table-cell;position:relative;vertical-align:bottom}.katex .vlist>span{display:block;height:0;position:relative}.katex .vlist>span>span{display:inline-block}.katex .vlist>span>.pstrut{overflow:hidden;width:0}.katex .vlist-t2{margin-right:-2px}.katex .vlist-s{display:table-cell;font-size:1px;min-width:2px;vertical-align:bottom;width:2px}.katex .vbox{align-items:baseline;display:inline-flex;flex-direction:column}.katex .hbox{width:100%}.katex .hbox,.katex .thinbox{display:inline-flex;flex-direction:row}.katex .thinbox{max-width:0;width:0}.katex .msupsub{text-align:left}.katex .mfrac>span>span{text-align:center}.katex .mfrac .frac-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline,.katex .hline,.katex .mfrac .frac-line,.katex .overline .overline-line,.katex .rule,.katex .underline .underline-line{min-height:1px}.katex .mspace{display:inline-block}.katex .clap,.katex .llap,.katex .rlap{position:relative;width:0}.katex .clap>.inner,.katex .llap>.inner,.katex .rlap>.inner{position:absolute}.katex .clap>.fix,.katex .llap>.fix,.katex .rlap>.fix{display:inline-block}.katex .llap>.inner{right:0}.katex .clap>.inner,.katex .rlap>.inner{left:0}.katex .clap>.inner>span{margin-left:-50%;margin-right:50%}.katex .rule{border:0 solid;display:inline-block;position:relative}.katex .hline,.katex .overline .overline-line,.katex .underline .underline-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline{border-bottom-style:dashed;display:inline-block;width:100%}.katex .sqrt>.root{margin-left:.2777777778em;margin-right:-.5555555556em}.katex .fontsize-ensurer.reset-size1.size1,.katex .sizing.reset-size1.size1{font-size:1em}.katex .fontsize-ensurer.reset-size1.size2,.katex .sizing.reset-size1.size2{font-size:1.2em}.katex .fontsize-ensurer.reset-size1.size3,.katex .sizing.reset-size1.size3{font-size:1.4em}.katex .fontsize-ensurer.reset-size1.size4,.katex .sizing.reset-size1.size4{font-size:1.6em}.katex .fontsize-ensurer.reset-size1.size5,.katex .sizing.reset-size1.size5{font-size:1.8em}.katex .fontsize-ensurer.reset-size1.size6,.katex .sizing.reset-size1.size6{font-size:2em}.katex .fontsize-ensurer.reset-size1.size7,.katex .sizing.reset-size1.size7{font-size:2.4em}.katex .fontsize-ensurer.reset-size1.size8,.katex .sizing.reset-size1.size8{font-size:2.88em}.katex .fontsize-ensurer.reset-size1.size9,.katex .sizing.reset-size1.size9{font-size:3.456em}.katex .fontsize-ensurer.reset-size1.size10,.katex .sizing.reset-size1.size10{font-size:4.148em}.katex .fontsize-ensurer.reset-size1.size11,.katex .sizing.reset-size1.size11{font-size:4.976em}.katex .fontsize-ensurer.reset-size2.size1,.katex .sizing.reset-size2.size1{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size2.size2,.katex .sizing.reset-size2.size2{font-size:1em}.katex .fontsize-ensurer.reset-size2.size3,.katex .sizing.reset-size2.size3{font-size:1.1666666667em}.katex .fontsize-ensurer.reset-size2.size4,.katex .sizing.reset-size2.size4{font-size:1.3333333333em}.katex .fontsize-ensurer.reset-size2.size5,.katex .sizing.reset-size2.size5{font-size:1.5em}.katex .fontsize-ensurer.reset-size2.size6,.katex .sizing.reset-size2.size6{font-size:1.6666666667em}.katex .fontsize-ensurer.reset-size2.size7,.katex .sizing.reset-size2.size7{font-size:2em}.katex .fontsize-ensurer.reset-size2.size8,.katex .sizing.reset-size2.size8{font-size:2.4em}.katex .fontsize-ensurer.reset-size2.size9,.katex .sizing.reset-size2.size9{font-size:2.88em}.katex .fontsize-ensurer.reset-size2.size10,.katex .sizing.reset-size2.size10{font-size:3.4566666667em}.katex .fontsize-ensurer.reset-size2.size11,.katex .sizing.reset-size2.size11{font-size:4.1466666667em}.katex .fontsize-ensurer.reset-size3.size1,.katex .sizing.reset-size3.size1{font-size:.7142857143em}.katex .fontsize-ensurer.reset-size3.size2,.katex .sizing.reset-size3.size2{font-size:.8571428571em}.katex .fontsize-ensurer.reset-size3.size3,.katex .sizing.reset-size3.size3{font-size:1em}.katex .fontsize-ensurer.reset-size3.size4,.katex .sizing.reset-size3.size4{font-size:1.1428571429em}.katex .fontsize-ensurer.reset-size3.size5,.katex .sizing.reset-size3.size5{font-size:1.2857142857em}.katex .fontsize-ensurer.reset-size3.size6,.katex .sizing.reset-size3.size6{font-size:1.4285714286em}.katex .fontsize-ensurer.reset-size3.size7,.katex .sizing.reset-size3.size7{font-size:1.7142857143em}.katex .fontsize-ensurer.reset-size3.size8,.katex .sizing.reset-size3.size8{font-size:2.0571428571em}.katex .fontsize-ensurer.reset-size3.size9,.katex .sizing.reset-size3.size9{font-size:2.4685714286em}.katex .fontsize-ensurer.reset-size3.size10,.katex .sizing.reset-size3.size10{font-size:2.9628571429em}.katex .fontsize-ensurer.reset-size3.size11,.katex .sizing.reset-size3.size11{font-size:3.5542857143em}.katex .fontsize-ensurer.reset-size4.size1,.katex .sizing.reset-size4.size1{font-size:.625em}.katex .fontsize-ensurer.reset-size4.size2,.katex .sizing.reset-size4.size2{font-size:.75em}.katex .fontsize-ensurer.reset-size4.size3,.katex .sizing.reset-size4.size3{font-size:.875em}.katex .fontsize-ensurer.reset-size4.size4,.katex .sizing.reset-size4.size4{font-size:1em}.katex .fontsize-ensurer.reset-size4.size5,.katex .sizing.reset-size4.size5{font-size:1.125em}.katex .fontsize-ensurer.reset-size4.size6,.katex .sizing.reset-size4.size6{font-size:1.25em}.katex .fontsize-ensurer.reset-size4.size7,.katex .sizing.reset-size4.size7{font-size:1.5em}.katex .fontsize-ensurer.reset-size4.size8,.katex .sizing.reset-size4.size8{font-size:1.8em}.katex .fontsize-ensurer.reset-size4.size9,.katex .sizing.reset-size4.size9{font-size:2.16em}.katex .fontsize-ensurer.reset-size4.size10,.katex .sizing.reset-size4.size10{font-size:2.5925em}.katex .fontsize-ensurer.reset-size4.size11,.katex .sizing.reset-size4.size11{font-size:3.11em}.katex .fontsize-ensurer.reset-size5.size1,.katex .sizing.reset-size5.size1{font-size:.5555555556em}.katex .fontsize-ensurer.reset-size5.size2,.katex .sizing.reset-size5.size2{font-size:.6666666667em}.katex .fontsize-ensurer.reset-size5.size3,.katex .sizing.reset-size5.size3{font-size:.7777777778em}.katex .fontsize-ensurer.reset-size5.size4,.katex .sizing.reset-size5.size4{font-size:.8888888889em}.katex .fontsize-ensurer.reset-size5.size5,.katex .sizing.reset-size5.size5{font-size:1em}.katex .fontsize-ensurer.reset-size5.size6,.katex .sizing.reset-size5.size6{font-size:1.1111111111em}.katex .fontsize-ensurer.reset-size5.size7,.katex .sizing.reset-size5.size7{font-size:1.3333333333em}.katex .fontsize-ensurer.reset-size5.size8,.katex .sizing.reset-size5.size8{font-size:1.6em}.katex .fontsize-ensurer.reset-size5.size9,.katex .sizing.reset-size5.size9{font-size:1.92em}.katex .fontsize-ensurer.reset-size5.size10,.katex .sizing.reset-size5.size10{font-size:2.3044444444em}.katex .fontsize-ensurer.reset-size5.size11,.katex .sizing.reset-size5.size11{font-size:2.7644444444em}.katex .fontsize-ensurer.reset-size6.size1,.katex .sizing.reset-size6.size1{font-size:.5em}.katex .fontsize-ensurer.reset-size6.size2,.katex .sizing.reset-size6.size2{font-size:.6em}.katex .fontsize-ensurer.reset-size6.size3,.katex .sizing.reset-size6.size3{font-size:.7em}.katex .fontsize-ensurer.reset-size6.size4,.katex .sizing.reset-size6.size4{font-size:.8em}.katex .fontsize-ensurer.reset-size6.size5,.katex .sizing.reset-size6.size5{font-size:.9em}.katex .fontsize-ensurer.reset-size6.size6,.katex .sizing.reset-size6.size6{font-size:1em}.katex .fontsize-ensurer.reset-size6.size7,.katex .sizing.reset-size6.size7{font-size:1.2em}.katex .fontsize-ensurer.reset-size6.size8,.katex .sizing.reset-size6.size8{font-size:1.44em}.katex .fontsize-ensurer.reset-size6.size9,.katex .sizing.reset-size6.size9{font-size:1.728em}.katex .fontsize-ensurer.reset-size6.size10,.katex .sizing.reset-size6.size10{font-size:2.074em}.katex .fontsize-ensurer.reset-size6.size11,.katex .sizing.reset-size6.size11{font-size:2.488em}.katex .fontsize-ensurer.reset-size7.size1,.katex .sizing.reset-size7.size1{font-size:.4166666667em}.katex .fontsize-ensurer.reset-size7.size2,.katex .sizing.reset-size7.size2{font-size:.5em}.katex .fontsize-ensurer.reset-size7.size3,.katex .sizing.reset-size7.size3{font-size:.5833333333em}.katex .fontsize-ensurer.reset-size7.size4,.katex .sizing.reset-size7.size4{font-size:.6666666667em}.katex .fontsize-ensurer.reset-size7.size5,.katex .sizing.reset-size7.size5{font-size:.75em}.katex .fontsize-ensurer.reset-size7.size6,.katex .sizing.reset-size7.size6{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size7.size7,.katex .sizing.reset-size7.size7{font-size:1em}.katex .fontsize-ensurer.reset-size7.size8,.katex .sizing.reset-size7.size8{font-size:1.2em}.katex .fontsize-ensurer.reset-size7.size9,.katex .sizing.reset-size7.size9{font-size:1.44em}.katex .fontsize-ensurer.reset-size7.size10,.katex .sizing.reset-size7.size10{font-size:1.7283333333em}.katex .fontsize-ensurer.reset-size7.size11,.katex .sizing.reset-size7.size11{font-size:2.0733333333em}.katex .fontsize-ensurer.reset-size8.size1,.katex .sizing.reset-size8.size1{font-size:.3472222222em}.katex .fontsize-ensurer.reset-size8.size2,.katex .sizing.reset-size8.size2{font-size:.4166666667em}.katex .fontsize-ensurer.reset-size8.size3,.katex .sizing.reset-size8.size3{font-size:.4861111111em}.katex .fontsize-ensurer.reset-size8.size4,.katex .sizing.reset-size8.size4{font-size:.5555555556em}.katex .fontsize-ensurer.reset-size8.size5,.katex .sizing.reset-size8.size5{font-size:.625em}.katex .fontsize-ensurer.reset-size8.size6,.katex .sizing.reset-size8.size6{font-size:.6944444444em}.katex .fontsize-ensurer.reset-size8.size7,.katex .sizing.reset-size8.size7{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size8.size8,.katex .sizing.reset-size8.size8{font-size:1em}.katex .fontsize-ensurer.reset-size8.size9,.katex .sizing.reset-size8.size9{font-size:1.2em}.katex .fontsize-ensurer.reset-size8.size10,.katex .sizing.reset-size8.size10{font-size:1.4402777778em}.katex .fontsize-ensurer.reset-size8.size11,.katex .sizing.reset-size8.size11{font-size:1.7277777778em}.katex .fontsize-ensurer.reset-size9.size1,.katex .sizing.reset-size9.size1{font-size:.2893518519em}.katex .fontsize-ensurer.reset-size9.size2,.katex .sizing.reset-size9.size2{font-size:.3472222222em}.katex .fontsize-ensurer.reset-size9.size3,.katex .sizing.reset-size9.size3{font-size:.4050925926em}.katex .fontsize-ensurer.reset-size9.size4,.katex .sizing.reset-size9.size4{font-size:.462962963em}.katex .fontsize-ensurer.reset-size9.size5,.katex .sizing.reset-size9.size5{font-size:.5208333333em}.katex .fontsize-ensurer.reset-size9.size6,.katex .sizing.reset-size9.size6{font-size:.5787037037em}.katex .fontsize-ensurer.reset-size9.size7,.katex .sizing.reset-size9.size7{font-size:.6944444444em}.katex .fontsize-ensurer.reset-size9.size8,.katex .sizing.reset-size9.size8{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size9.size9,.katex .sizing.reset-size9.size9{font-size:1em}.katex .fontsize-ensurer.reset-size9.size10,.katex .sizing.reset-size9.size10{font-size:1.2002314815em}.katex .fontsize-ensurer.reset-size9.size11,.katex .sizing.reset-size9.size11{font-size:1.4398148148em}.katex .fontsize-ensurer.reset-size10.size1,.katex .sizing.reset-size10.size1{font-size:.2410800386em}.katex .fontsize-ensurer.reset-size10.size2,.katex .sizing.reset-size10.size2{font-size:.2892960463em}.katex .fontsize-ensurer.reset-size10.size3,.katex .sizing.reset-size10.size3{font-size:.337512054em}.katex .fontsize-ensurer.reset-size10.size4,.katex .sizing.reset-size10.size4{font-size:.3857280617em}.katex .fontsize-ensurer.reset-size10.size5,.katex .sizing.reset-size10.size5{font-size:.4339440694em}.katex .fontsize-ensurer.reset-size10.size6,.katex .sizing.reset-size10.size6{font-size:.4821600771em}.katex .fontsize-ensurer.reset-size10.size7,.katex .sizing.reset-size10.size7{font-size:.5785920926em}.katex .fontsize-ensurer.reset-size10.size8,.katex .sizing.reset-size10.size8{font-size:.6943105111em}.katex .fontsize-ensurer.reset-size10.size9,.katex .sizing.reset-size10.size9{font-size:.8331726133em}.katex .fontsize-ensurer.reset-size10.size10,.katex .sizing.reset-size10.size10{font-size:1em}.katex .fontsize-ensurer.reset-size10.size11,.katex .sizing.reset-size10.size11{font-size:1.1996142719em}.katex .fontsize-ensurer.reset-size11.size1,.katex .sizing.reset-size11.size1{font-size:.2009646302em}.katex .fontsize-ensurer.reset-size11.size2,.katex .sizing.reset-size11.size2{font-size:.2411575563em}.katex .fontsize-ensurer.reset-size11.size3,.katex .sizing.reset-size11.size3{font-size:.2813504823em}.katex .fontsize-ensurer.reset-size11.size4,.katex .sizing.reset-size11.size4{font-size:.3215434084em}.katex .fontsize-ensurer.reset-size11.size5,.katex .sizing.reset-size11.size5{font-size:.3617363344em}.katex .fontsize-ensurer.reset-size11.size6,.katex .sizing.reset-size11.size6{font-size:.4019292605em}.katex .fontsize-ensurer.reset-size11.size7,.katex .sizing.reset-size11.size7{font-size:.4823151125em}.katex .fontsize-ensurer.reset-size11.size8,.katex .sizing.reset-size11.size8{font-size:.578778135em}.katex .fontsize-ensurer.reset-size11.size9,.katex .sizing.reset-size11.size9{font-size:.6945337621em}.katex .fontsize-ensurer.reset-size11.size10,.katex .sizing.reset-size11.size10{font-size:.8336012862em}.katex .fontsize-ensurer.reset-size11.size11,.katex .sizing.reset-size11.size11{font-size:1em}.katex .delimsizing.size1{font-family:KaTeX_Size1}.katex .delimsizing.size2{font-family:KaTeX_Size2}.katex .delimsizing.size3{font-family:KaTeX_Size3}.katex .delimsizing.size4{font-family:KaTeX_Size4}.katex .delimsizing.mult .delim-size1>span{font-family:KaTeX_Size1}.katex .delimsizing.mult .delim-size4>span{font-family:KaTeX_Size4}.katex .nulldelimiter{display:inline-block;width:.12em}.katex .delimcenter,.katex .op-symbol{position:relative}.katex .op-symbol.small-op{font-family:KaTeX_Size1}.katex .op-symbol.large-op{font-family:KaTeX_Size2}.katex .accent>.vlist-t,.katex .op-limits>.vlist-t{text-align:center}.katex .accent .accent-body{position:relative}.katex .accent .accent-body:not(.accent-full){width:0}.katex .overlay{display:block}.katex .mtable .vertical-separator{display:inline-block;min-width:1px}.katex .mtable .arraycolsep{display:inline-block}.katex .mtable .col-align-c>.vlist-t{text-align:center}.katex .mtable .col-align-l>.vlist-t{text-align:left}.katex .mtable .col-align-r>.vlist-t{text-align:right}.katex .svg-align{text-align:left}.katex svg{fill:currentColor;stroke:currentColor;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:block;height:inherit;position:absolute;width:100%}.katex svg path{stroke:none}.katex img{border-style:none;max-height:none;max-width:none;min-height:0;min-width:0}.katex .stretchy{display:block;overflow:hidden;position:relative;width:100%}.katex .stretchy:after,.katex .stretchy:before{content:""}.katex .hide-tail{overflow:hidden;position:relative;width:100%}.katex .halfarrow-left{left:0;overflow:hidden;position:absolute;width:50.2%}.katex .halfarrow-right{overflow:hidden;position:absolute;right:0;width:50.2%}.katex .brace-left{left:0;overflow:hidden;position:absolute;width:25.1%}.katex .brace-center{left:25%;overflow:hidden;position:absolute;width:50%}.katex .brace-right{overflow:hidden;position:absolute;right:0;width:25.1%}.katex .x-arrow-pad{padding:0 .5em}.katex .cd-arrow-pad{padding:0 .55556em 0 .27778em}.katex .mover,.katex .munder,.katex .x-arrow{text-align:center}.katex .boxpad{padding:0 .3em}.katex .fbox,.katex .fcolorbox{border:.04em solid;box-sizing:border-box}.katex .cancel-pad{padding:0 .2em}.katex .cancel-lap{margin-left:-.2em;margin-right:-.2em}.katex .sout{border-bottom-style:solid;border-bottom-width:.08em}.katex .angl{border-right:.049em solid;border-top:.049em solid;box-sizing:border-box;margin-right:.03889em}.katex .anglpad{padding:0 .03889em}.katex .eqn-num:before{content:"(" counter(katexEqnNo) ")";counter-increment:katexEqnNo}.katex .mml-eqn-num:before{content:"(" counter(mmlEqnNo) ")";counter-increment:mmlEqnNo}.katex .mtr-glue{width:50%}.katex .cd-vert-arrow{display:inline-block;position:relative}.katex .cd-label-left{display:inline-block;position:absolute;right:calc(50% + .3em);text-align:left}.katex .cd-label-right{display:inline-block;left:calc(50% + .3em);position:absolute;text-align:right}.katex-display{display:block;margin:1em 0;text-align:center}.katex-display>.katex{display:block;text-align:center;white-space:nowrap}.katex-display>.katex>.katex-html{display:block;position:relative}.katex-display>.katex>.katex-html>.tag{position:absolute;right:0}.katex-display.leqno>.katex>.katex-html>.tag{left:0;right:auto}.katex-display.fleqn>.katex{padding-left:2em;text-align:left}body{counter-reset:katexEqnNo mmlEqnNo}
+</style>
+<script id="simplify-jobs-page-script" src="chrome-extension://pbanhockgagggenencehbnadejlgchfc/js/pageScript.bundle.js"></script><style data-id="immersive-translate-input-injected-css">.immersive-translate-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2147483647;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.immersive-translate-attach-loading::after {
+  content: " ";
+
+  --loading-color: #f78fb6;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: block;
+  margin: 12px auto;
+  position: relative;
+  color: white;
+  left: -100px;
+  box-sizing: border-box;
+  animation: immersiveTranslateShadowRolling 1.5s linear infinite;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-2000%, -50%);
+  z-index: 100;
+}
+
+.immersive-translate-loading-spinner {
+  vertical-align: middle !important;
+  width: 10px !important;
+  height: 10px !important;
+  display: inline-block !important;
+  margin: 0 4px !important;
+  border: 2px rgba(221, 244, 255, 0.6) solid !important;
+  border-top: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-left: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  -webkit-animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+  animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+}
+
+@-webkit-keyframes immersive-translate-loading-animation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes immersive-translate-loading-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.immersive-translate-input-loading {
+  --loading-color: #f78fb6;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: block;
+  margin: 12px auto;
+  position: relative;
+  color: white;
+  left: -100px;
+  box-sizing: border-box;
+  animation: immersiveTranslateShadowRolling 1.5s linear infinite;
+}
+
+@keyframes immersiveTranslateShadowRolling {
+  0% {
+    box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  12% {
+    box-shadow: 100px 0 var(--loading-color), 0px 0 rgba(255, 255, 255, 0),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  25% {
+    box-shadow: 110px 0 var(--loading-color), 100px 0 var(--loading-color),
+      0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  36% {
+    box-shadow: 120px 0 var(--loading-color), 110px 0 var(--loading-color),
+      100px 0 var(--loading-color), 0px 0 rgba(255, 255, 255, 0);
+  }
+
+  50% {
+    box-shadow: 130px 0 var(--loading-color), 120px 0 var(--loading-color),
+      110px 0 var(--loading-color), 100px 0 var(--loading-color);
+  }
+
+  62% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 var(--loading-color),
+      120px 0 var(--loading-color), 110px 0 var(--loading-color);
+  }
+
+  75% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      130px 0 var(--loading-color), 120px 0 var(--loading-color);
+  }
+
+  87% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      200px 0 rgba(255, 255, 255, 0), 130px 0 var(--loading-color);
+  }
+
+  100% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+      200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.immersive-translate-toast {
+  display: flex;
+  position: fixed;
+  z-index: 2147483647;
+  left: 0;
+  right: 0;
+  top: 1%;
+  width: fit-content;
+  padding: 12px 20px;
+  margin: auto;
+  overflow: auto;
+  background: #fef6f9;
+  box-shadow: 0px 4px 10px 0px rgba(0, 10, 30, 0.06);
+  font-size: 15px;
+  border-radius: 8px;
+  color: #333;
+}
+
+.immersive-translate-toast-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.immersive-translate-toast-hidden {
+  margin: 0 20px 0 72px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.immersive-translate-toast-close {
+  color: #666666;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .immersive-translate-toast {
+    top: 0;
+    padding: 12px 0px 0 10px;
+  }
+  .immersive-translate-toast-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .immersive-translate-toast-hidden {
+    margin: 10px auto;
+  }
+}
+
+.immersive-translate-modal {
+  display: none;
+  position: fixed;
+  z-index: 2147483647;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  font-size: 15px;
+}
+
+.immersive-translate-modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 40px 24px 24px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 270px;
+  font-family: system-ui, -apple-system, "Segoe UI", "Roboto", "Ubuntu",
+    "Cantarell", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  position: relative;
+}
+
+@media screen and (max-width: 768px) {
+  .immersive-translate-modal-content {
+    margin: 50% auto !important;
+  }
+}
+
+.immersive-translate-modal .immersive-translate-modal-content-in-input {
+  max-width: 500px;
+}
+.immersive-translate-modal-content-in-input .immersive-translate-modal-body {
+  text-align: left;
+  max-height: unset;
+}
+
+.immersive-translate-modal-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.immersive-translate-modal-body {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  word-break: break-all;
+  margin-top: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .immersive-translate-modal-body {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+}
+
+.immersive-translate-close {
+  color: #666666;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.immersive-translate-close:hover,
+.immersive-translate-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.immersive-translate-modal-footer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.immersive-translate-btn {
+  width: fit-content;
+  color: #fff;
+  background-color: #ea4c89;
+  border: none;
+  font-size: 16px;
+  margin: 0 8px;
+  padding: 9px 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.immersive-translate-btn:hover {
+  background-color: #f082ac;
+}
+.immersive-translate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.immersive-translate-btn:disabled:hover {
+  background-color: #ea4c89;
+}
+
+.immersive-translate-cancel-btn {
+  /* gray color */
+  background-color: rgb(89, 107, 120);
+}
+
+.immersive-translate-cancel-btn:hover {
+  background-color: hsl(205, 20%, 32%);
+}
+
+.immersive-translate-action-btn {
+  background-color: transparent;
+  color: #ea4c89;
+  border: 1px solid #ea4c89;
+}
+
+.immersive-translate-btn svg {
+  margin-right: 5px;
+}
+
+.immersive-translate-link {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  text-decoration: none;
+  color: #007bff;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+.immersive-translate-primary-link {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  text-decoration: none;
+  color: #ea4c89;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+.immersive-translate-modal input[type="radio"] {
+  margin: 0 6px;
+  cursor: pointer;
+}
+
+.immersive-translate-modal label {
+  cursor: pointer;
+}
+
+.immersive-translate-close-action {
+  position: absolute;
+  top: 2px;
+  right: 0px;
+  cursor: pointer;
+}
+
+.imt-image-status {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 16px !important;
+}
+.imt-image-status img,
+.imt-image-status svg,
+.imt-img-loading {
+  width: 28px !important;
+  height: 28px !important;
+  margin: 0 0 8px 0 !important;
+  min-height: 28px !important;
+  min-width: 28px !important;
+  position: relative !important;
+}
+.imt-img-loading {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAtFBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////oK74hAAAAPHRSTlMABBMIDyQXHwyBfFdDMSw+OjXCb+5RG51IvV/k0rOqlGRM6KKMhdvNyZBz9MaupmxpWyj437iYd/yJVNZeuUC7AAACt0lEQVRIx53T2XKiUBCA4QYOiyCbiAsuuGBcYtxiYtT3f6/pbqoYHVFO5r+iivpo6DpAWYpqeoFfr9f90DsYAuRSWkFnPO50OgR9PwiCUFcl2GEcx+N/YBh6pvKaefHlUgZd1zVe0NbYcQjGBfzrPE8Xz8aF+71D8gG6DHFPpc4a7xFiCDuhaWgKgGIJQ3d5IMGDrpS4S5KgpIm+en9f6PlAhKby4JwEIxlYJV9h5k5nee9GoxHJ2IDSNB0dwdad1NAxDJ/uXDHYmebdk4PdbkS58CIVHdYSUHTYYRWOJblWSyu2lmy3KNFVJNBhxcuGW4YBVCbYGRZwIooipHsNqjM4FbgOQqQqSKQQU9V8xmi1QlgHqQQ6DDBvRUVCDirs+EzGDGOQTCATgtYTnbCVLgsVgRE0T1QE0qHCFAht2z6dLvJQs3Lo2FQoDxWNUiBhaP4eRgwNkI+dAjVOA/kUrIDwf3CG8NfNOE0eiFotSuo+rBiq8tD9oY4Qzc6YJw99hl1wzpQvD7ef2M8QgnOGJfJw+EltQc+oX2yn907QB22WZcvlUpd143dqQu+8pCJZuGE4xCuPXJqqcs5sNpsI93Rmzym1k4Npk+oD1SH3/a3LOK/JpUBpWfqNySxWzCfNCUITuDG5dtuphrUJ1myeIE9bIsPiKrfqTai5WZxbhtNphYx6GEIHihyGFTI69lje/rxajdh0s0msZ0zYxyPLhYCb1CyHm9Qsd2H37Y3lugVwL9kNh8Ot8cha6fUNQ8nuXi5z9/ExsAO4zQrb/ev1yrCB7lGyQzgYDGuxq1toDN/JGvN+HyWNHKB7zEoK+PX11e12G431erGYzwmytAWU56fkMHY5JJnDRR2eZji3AwtIcrEV8Cojat/BdQ7XOwGV1e1hDjGGjXbdArm8uJZtCH5MbcctVX8A1WpqumJHwckAAAAASUVORK5CYII=");
+  background-size: 28px 28px;
+  animation: image-loading-rotate 1s linear infinite !important;
+}
+
+.imt-image-status span {
+  color: var(--bg-2, #fff) !important;
+  font-size: 14px !important;
+  line-height: 14px !important;
+  font-weight: 500 !important;
+  font-family: "PingFang SC", Arial, sans-serif !important;
+}
+
+@keyframes image-loading-rotate {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+</style></head>
+
+<body data-new-gr-c-s-check-loaded="14.1240.0" data-gr-ext-installed="">
+    
+    <div class="UW-header">
+    <div class="header-main">
+        <div class="header-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="198.414" height="47.335"><path fill="#FFF" d="m20.498 47.335-.487-.226c-5.406-2.502-9.772-6.139-12.623-10.513C.552 26.107.326 15.271.088 3.8L.03 1.185 0 0h40.973l-.028 1.186c-.022.88-.04 1.756-.058 2.633-.242 11.464-.468 22.293-7.302 32.778-2.845 4.368-7.2 8.001-12.6 10.513l-.487.225zM46.126 16.332h4.27l3.746 12.255 4.062-12.308h3.411l4.06 12.308 3.75-12.255h4.164l-6.184 18.227h-3.461l-4.082-11.838-4.089 11.838h-3.465zM84.084 26.982l-2.402-5.869-2.403 5.869h4.805zm-4.191-10.654h3.676l7.753 18.23h-4.16l-1.654-4.062h-7.654l-1.656 4.062h-4.062l7.757-18.23zM95.662 20.131h-5.506V16.46h15v3.671h-5.505v14.428h-3.989zM108.185 16.46h13.652v3.536h-9.695v3.675h8.535v3.546h-8.535v3.801h9.824v3.541h-13.781zM134.265 25.252c1.943 0 3.055-1.035 3.055-2.56v-.054c0-1.706-1.193-2.588-3.133-2.588h-3.953v5.201h4.031zm-8.015-8.792h8.277c2.299 0 4.084.644 5.275 1.837 1.008 1.006 1.551 2.424 1.551 4.131v.053c0 2.926-1.574 4.762-3.879 5.616l4.42 6.462h-4.656l-3.877-5.791h-3.127v5.791h-3.984V16.46zM145.746 16.46h3.98v14.481h8.477v3.618h-12.457zM173.892 25.561v-.054c0-3.099-2.273-5.688-5.48-5.688s-5.432 2.534-5.432 5.638v.05c0 3.104 2.275 5.694 5.484 5.694 3.203 0 5.428-2.533 5.428-5.64m-15.078 0v-.054c0-5.142 4.061-9.36 9.65-9.36 5.582 0 9.594 4.164 9.594 9.311v.05c0 5.15-4.062 9.364-9.646 9.364s-9.598-4.165-9.598-9.311M194.253 25.561v-.054c0-3.099-2.277-5.688-5.486-5.688-3.203 0-5.43 2.534-5.43 5.638v.05c0 3.104 2.277 5.694 5.48 5.694 3.208 0 5.436-2.533 5.436-5.64m-15.078 0v-.054c0-5.142 4.059-9.36 9.643-9.36 5.588 0 9.596 4.164 9.596 9.311v.05c0 5.15-4.061 9.364-9.646 9.364-5.585-.001-9.593-4.165-9.593-9.311"></path><g fill="#FFF"><path d="M56.23 7.301V2.533h1.837v4.719c0 1.357.677 2.059 1.797 2.059 1.119 0 1.8-.68 1.8-1.998v-4.78H63.5v4.706c0 2.526-1.421 3.764-3.659 3.764-2.241 0-3.611-1.249-3.611-3.702zM68.378 2.533h1.691l3.909 5.136V2.533h1.811v8.342h-1.562l-4.039-5.303v5.303h-1.811V2.533zM81.007 2.533h1.835v8.342h-1.835V2.533zM87.346 2.533h2.023l2.182 5.875 2.18-5.875h1.978l-3.37 8.398h-1.622l-3.371-8.398zM100.128 2.533h6.291v1.633h-4.469v1.691h3.932V7.49h-3.932v1.753h4.527v1.632h-6.35V2.533zM111.246 2.533h3.812c1.061 0 1.881.297 2.43.848.465.464.715 1.119.715 1.904v.025c0 1.344-.727 2.191-1.787 2.586l2.037 2.979h-2.145l-1.785-2.672h-1.443v2.672h-1.834V2.533zm3.693 4.053c.893 0 1.404-.479 1.404-1.182V5.38c0-.784-.547-1.19-1.439-1.19h-1.824v2.396h1.859zM122.421 9.658l1.084-1.297c.75.619 1.537 1.013 2.488 1.013.752 0 1.205-.298 1.205-.788v-.024c0-.463-.287-.701-1.682-1.06-1.678-.428-2.764-.895-2.764-2.55V4.93c0-1.514 1.217-2.516 2.92-2.516 1.215 0 2.252.381 3.098 1.061l-.953 1.383c-.738-.513-1.465-.822-2.17-.822-.701 0-1.072.32-1.072.727v.023c0 .549.359.729 1.801 1.096 1.691.44 2.645 1.05 2.645 2.502v.025c0 1.655-1.264 2.585-3.062 2.585a5.308 5.308 0 0 1-3.538-1.336zM133.833 2.533h1.834v8.342h-1.834V2.533zM142.83 4.225h-2.539V2.533h6.91v1.691h-2.539v6.65h-1.832V4.225zM154.087 7.585l-3.203-5.052h2.143l1.99 3.348 2.025-3.348h2.084l-3.203 5.016v3.326h-1.836v-3.29zM169.552 6.728v-.021c0-2.375 1.873-4.316 4.447-4.316 2.57 0 4.418 1.918 4.418 4.289v.027c0 2.369-1.871 4.31-4.445 4.31-2.572 0-4.42-1.916-4.42-4.289zm6.946 0v-.021c0-1.432-1.049-2.624-2.525-2.624s-2.502 1.169-2.502 2.597v.027c0 1.428 1.051 2.618 2.529 2.618 1.474 0 2.498-1.167 2.498-2.597zM182.359 2.533h6.35v1.668h-4.518v1.775h3.98v1.669h-3.98v3.229h-1.832V2.533z"></path></g><path fill="#FFD74F" d="m36.349 27.186-15.854-11.97L4.772 27.607c-2.92-8.296-2.808-16.933-3.023-25.795h37.476c-.213 8.712-.108 17.206-2.876 25.374z"></path><path fill="#FFD74F" d="M34.178 32.316a37.772 37.772 0 0 1-1.915 3.289c-2.856 4.387-7.102 7.631-11.766 9.8-4.687-2.169-8.929-5.413-11.785-9.8a36.183 36.183 0 0 1-1.676-2.831L20.495 21.43l13.683 10.886z"></path><path fill="none" stroke="#231F20" stroke-width="1.152" d="M20.497 45.405c-4.687-2.169-8.929-5.413-11.785-9.8C1.746 24.918 2.035 13.564 1.749 1.812h37.476c-.287 11.752.003 23.105-6.962 33.793-2.857 4.387-7.102 7.631-11.766 9.8z"></path><path fill="#CD1543" d="M9.534 8.232c-1.899-.403-3.59-1.812-3.18-3.605.004-.018-.074-.464-.236-.524-.014-.006-.041-.054-.07-.063a.553.553 0 0 1-.193-.095c-.021-.013-.109-.045-.109-.076-.035.073-.026.143-.075.207-.021.025-.048.063-.075.076-.034.016-.037.049-.063.073-.143.143-.066.36-.044.523.007.042.024.094-.027.104-.061.009-.012-.019-.082-.062-.016-.011-.041-.037-.058-.045-.031-.015-.148-.031-.17-.061-.02-.03-.01-.039-.039-.064-.066-.059-.072-.178-.12-.3a.818.818 0 0 1-.028-.152c0-.119-.31-.314-.189-.215.042.033-.006-.049-.173-.09a.876.876 0 0 0-.343-.004c-.024.002-.047.02-.064.032-.119.095-.233.209-.39.215.026-.019.04.014.053.03.075.094.02.215.064.32s.121.184.208.256c.087.066.238-.023.306.095 0 0 .14.034.001.173-.254.259-.539.051-.751.528.32-.138.357.35.492.369.612.082 1.078.189 1.413.811.205.378-.367.396.15.484a.84.84 0 0 1 .571.364c.141.194.159.459.311.642.107.131.148.156.279.266.059.048.246.096.319.114.07.02.112.056.178.081.071.025.146.051.207.1.052.043.182.088.211.146.054.104.01.209.067.315.018.027.1.003.131.014a.317.317 0 0 0 .125.013c.125-.029.154-.039.247-.049.142-.016.125.029.308.02.04 0 .054.029.107.029.034 0 .097.037.107.005.056-.173.148-.343.248-.512.104-.169.094-.187.224-.364-.015.005.169-.122.152-.124M4.797 8.453c.557.299.482 1.038.98 1.277.894.425 1.957.716 2.905.25-.212.658.021 1.211-.07 1.287-.296.236-1.201-.047-1.781-.277-.399-.158-.723.436-1.163.385.021-.055.072-.205.043-.301-.07-.215-.127-.274-.482-.232-.23.024-.134.212-.479.383-.137-.08-.428-.171-.471.087-.021.121-.263-.418-.213-.51.227-.407.271-.501.256-.587-.027-.135-.516-.312-.578-.199-.156.265-.604-.863.722-.789-.356-.23-.315-.27-.233-.541.01-.039-.124-.177-.213-.082-.03-.106.04-.218.122-.229.22-.032.433-.042.655.078"></path><path fill="#CD1543" d="M7.432 5.725c.804.186 2.006-.851 2.702.371-.514-.188-2.036.628-2.702-.371M14.153 7.502c-.015 1.047-1.101 2.177-.22 3.176-.361-.006-.787-.131-1.037-.332-.14-.112-.108.498-.089.625.016.106-.668-.646-.925-.465-.727.523-1.042.738-2.12.778-.299.011-.455.253-.54.514-.244-.5-.064-1.637.077-2.141.382-1.386 1.773-1.796 2.889-2.46.799-.474 1.142-1.405 1.102-2.313.568.714.877 1.727.863 2.618"></path><path fill="#CD1543" d="M9.047 19.293c.136.031.034.143-.02.179a.881.881 0 0 0-.256.274c-.053.084-.091.171-.069.274.012.075.037.139.065.211.019.041.057.064.087.1a.447.447 0 0 1 .065.08c-.029-.105.118-.212.152-.193.69.402.731-.411 1.146-.687.175-.119.572.019.471.378.412-.222.533-.775.855-1.123.709-.77 1.706-1.284 2.651-1.701-.343-.361-.846-.669-1.101-1.084-.126-.207-.277-.611.002-.536 1.163.302 1.814-.405 1.941-1.321 1.722.225 2.171-1.403 2.402-2.632.112-.598.439-.651.083-1.665-.149-.426.762-.565.606-1.3-.043-.203-.293-.405-.44-.428.14.396-.522.493-.596.656-.111.255-.275.457-.296.72-.56-.774-.107-1.709.42-2.436.767-1.058 2.36-.503 3.031.179.013-.342-.254-.775-.471-.986.627-.081 1.307.302 2.163-.15.493-.265.991-.489 1.222-1.072-1.049.144-2.473-.664-3.419-.83-1.763-.307-2.946.897-3.578 2.332-.629 1.434-.228 2.503.456 3.575.173.271-.605.094-.912.252-.298.154-.42.521-.352.848.375-.403 1.373-.155 1.463.537.122.93-.818 2.289-1.727 1.883-.972-.437-1.523-1.463-1.846-2.615-.833.715-2.367.124-3.082.822-.679.665 1.059 1.115 1.733 1.43.249.118.498.371.458.686-1.059-.62-2.335.083-2.274 1.215.049.846 1.085 1.371 1.945 1.443.36.03.576.428.139.701-.764.479-1.618 1.014-2.443.147-.138-.145-.631-.052-.73.21a1.089 1.089 0 0 0-.043.451c.046-.076.098-.188.167-.18.081.012.181.099.17.158-.071.423-.629.15-.802.479-.003.007-.012.015-.018.023-.01.026-.024.049-.038.074-.112.223-.267.366.01.539-.006-.041.138.179.136.218.013-.206.226-.2.226-.2l.124.014.124.051z"></path><path fill="#CD1543" d="M5.462 15.31c-.108-.033-.223.007-.331.057-.069.028-.152-.003-.194.066-.023.044-.041.091-.026.138.006.027.018.074.04.091-.146-.013-.281-.11-.394-.21-.035-.031-.059-.07-.094-.104-.021-.024-.02-.067-.032-.098-.017-.037-.011-.074-.011-.109a.604.604 0 0 1 .039-.295c.021-.043.04-.085.072-.123.023-.03.048-.053.075-.079a.598.598 0 0 1 .256-.155.63.63 0 0 1 .434.029c.108.048.241.042.354.073.061.017.175-.158.094-.181-.362-.086-.36-.183-.496-.551-.062-.07-.146.013-.181.049-.002-.7.83-.747 1.178-.469.514.413.128 1.225.76 1.447.329.115.678.205 1.017.062.612-.26.002-.875.199-1.392.399-1.05 1.282-1.104 2.333-.095-.941.312-1.38 1.558-.866 2.379-.829-.328-1.876.223-2.459.594.543-.542-.218-.98-.411-.885l-.229.161c-.11.142-.121.284-.257.421a.4.4 0 0 1-.221.111.365.365 0 0 1-.346-.052c-.022-.015-.094.017-.11.034-.067.083-.002.123-.004.152a4.761 4.761 0 0 1-.111-.088c-.08-.059-.169-.111-.217-.192-.049-.077-.083-.281-.028-.395.057-.108.165-.144.239-.22.069-.068-.013-.177-.098-.19M25.655 6.061c.077.05-.005.184-.091.207-.102.031-.243-.013-.331.021-.395.146-.396 1.119-.342 1.006.06-.126.353-.043.54-.008.305.064.536-.559.737-.541.476.045.92.637 1.102 1.023.031.072-.199.074-.218.312.649-.062 1.197.359 1.663.744.229-.396.458-.642.718-.898-.972-.949-2.907-1.24-2.61-2.969.039-.221-.211-.416-.321-.525-.125-.119-.414-.127-.589-.17.185.383-.149.42-.102 1.029 0 .02-.056.006-.075-.002-.115-.051-.216-.123-.325-.192-.102-.062-.195-.043-.307-.03a.433.433 0 0 0-.185.082c-.092.065-.139.152-.204.243-.012.017-.024.037-.039.053a.298.298 0 0 0-.065.12c.052-.004.208.008.235.049.045.07.047.15.102.219.065.086.12.088.219.13a.93.93 0 0 0 .452.079M28.172 5.366c.608-.044 1.211-.511 1.884.277-.124-.06-.27-.079-.345-.021-.743.6-1.646.396-2.122-.346.193-.028.428.103.583.09M30.803 7.571c.998-.505 2.009-.91 2.419-2.15.079-.241.266.361.278.396.527 1.512-.525 3.014-.308 4.557-.353-.215-.75-.363-1.135-.375-1.371-.039-1.696.794-1.772.717-.377-.382-1.456-.705-1.377-.635-.641-.594 1.207-2.158 1.895-2.51M28.073 17.635c.137.211-.045-.12.109.238.726-.303 1.473-.646 2.271-.325-.353-1.624.835-2.019.929-2.263.15-.391-.643-1.166-1.241-.95-.762.272-.445 1.235-.59 1.909-.078.375-.54.645-.923.514-.631-.219-.886-.806-1.039-1.467-.105-.437-.96-.49-1.146-.131-.526 1.02.313-.119.258.655-.009.132-.613.036-.748.492-.093.312.205.523.577.631.07.022-.072-.153.022-.192.068-.023.343.121.31.139-.36.22-.452.729.19.952.005.001-.047-.185 0-.22.505-.375 1.029.029 1.029.018M17.199 27.916c.602.278.794-.021 1.587-.148.108-.02.554.272.685.419-.793.125-1.758.813-2.272-.271M16.879 28.549c-.038-.04-.091-.059-.14-.077a.655.655 0 0 0-.159-.048c-.012-.004-.112-.025-.128-.031-.003.037.042.129.016.15-.062.06-.084.045-.137.121-.018.029-.038.06-.044.092-.014.071-.046.148-.055.229-.002.04.016.135.023.172.005.02.049.103.06.126 0 0 .096.104.09.099.113.113.022.049.159.183.069.067-.032.185-.101.162-.465-.134-.53-.673-.953-.839-.307-.117-.752.122-.799.591.104-.03.213.012.232.098.114.472.807.19.823.522.013.217-.519-.036-.729.101-.276.187-.315.718-.07 1.03.253-.241.566.109.812-.065.172-.122.232-.296.408-.372.533-.235.69.255.572.747.286-.134.964-.271 1.117-.317.281-.073.295-.722.639-.96-.487-.003-1.09-.214-1.227-.689-.012-.051.022-.11.027-.167a1.158 1.158 0 0 0-.073-.523c-.006-.018-.024-.037-.038-.059-.021-.027-.035-.055-.055-.084-.049-.066-.12-.096-.189-.142-.029-.018-.068-.023-.092-.056M13.299 31.903c.212.415-.837-.247-1.231.364-.126.197-.059.642-.059.89.242-.218.482.197.933-.2.05.045.104.072.034.143-.166.168-.259.376-.171.578.055.133.43.396.432.377.039-.273.5 0 .573-.533.03-.221.095-.582.412-.451.289.119.349.448.281.771.462-.152 1.271-.623 1.757-.273.65.47 1.719.662 2.48.898-.506-.35-.666-1.264-.581-1.86-1.198.234-2.459.195-3.569-.32-.305-.14-.263-.493-.354-.781-.103-.325-.514-.624-.886-.599-.201.016-.681.438-.588.457-.031-.008-.03.062-.046.09.089-.056.203 0 .244.099.029.066.059.142.115.196.068.068.187.083.224.154M16.174 38.455c.23-.286.424-.134.525-.131.242.008.227.352.202.569.954-.46 1.862-1.118 2.98-.878-.652-.682-.421-2.146.499-2.324.003 0-.593-.098-.656-.137-.801-.507-1.779-.992-2.317.071-.267.527.224.954.592 1.393.066.08-.042.124-.127.148-.877.224-2.489.356-2.562-.954-.007-.131-.345-.242-.562-.235-.649.021-.64.847-.566.79.143-.109.576-.072.524.263-.049.309-.654-.165-.894.146-.203.259-.197.687-.055.975-.025-.107.095-.185.161-.196.672-.111.71.121.511.775-.015.049.197.458.341.496-.013-.005-.011-.094.009-.124a.16.16 0 0 1 .087-.065c.072-.027.147-.021.222-.039.034-.014.06-.034.094-.057.052-.031.089-.078.128-.125.156-.197.293-.451.557-.475.123-.012.201.043.304.109"></path><path fill="#CD1543" d="M23.127 41.494c.613-.611 1.06-1.425 1.717-2.021-.721-.425-1.613-.868-1.709-1.819-.008-.064.102-.136.125-.124 1.002.563 2.354.606 3.076-.417.583-.826.835-2.171 1.974-2.244-.378-.73.048-1.568.67-1.951-.21-.08-.48-.253-.716-.209-.288.049-.411.438-.739.5.516-1.734-.479-4.157-2.391-4.117-.357.006-.821.295-.939.688-.11.368-.167.833.1 1.149.626.748 1.077 1.564.88 2.556.447-.386.857-.952.843-1.555-.003-.153.27-.044.312-.104.523-.768-.331-1.241-.783-1.724-.126-.131.193-.332.235-.316 1.637.486 1.792 2.506 1.09 3.818-.187-.234-.881-.156-1.115-.236.768.387.568.441.534.569-.055.23-.744.129-.877.3-.23.293-.403.424-.421 1.398.318-.342.734-.864 1.186-.633.965.498-.048 2.166-.958 2.442-.777.233-1.496-.011-1.977-.69-.697-.979-.192-2.165-.685-3.157-.413.1-.319.64-.534.544-.758-.352-1.188-1.162-1.737-1.842-.228.083-.327.293-.547.284-.325-.015-.937-.118-1.067.049-.15.188-.261 1.564 1.079 2.064.91.339 1.628.641 2.201 1.352-.384.03-.518-.155-.83-.169-.311-.011-.505.111-.738.23-.224.117-.484.553-.439.902.208 1.668 2.166 1.686 3.066 2.744.155.178-.236.9-.604 1.195-.314.251-1.067-.377-.946-.91.1-.425-.929-.709-1.287-.225.142-.014.179.08.165.148-.064.391.423.405.407.605-.021.273-.259-.119-.449-.15a1.038 1.038 0 0 0-1.068.393c-.071.1-.235.261-.164.43.317-.154.482.338.777.188.182-.094.327-.252.545-.197.086.023.174.14.096.193-.576.368-1.039.887-.622 1.479a.31.31 0 0 1 .209-.26c.168-.046.392.067.556.015.268-.091.13-.359.233-.548.159-.301.704-.801 1.013-.437.057.064.012.307-.152.313.168-.007.32.16.464.127.041-.004.084-.004.121-.022.031-.017.068-.024.094-.05.067-.069.145-.141.156-.249.124.011.281.021.362-.083.078-.105.176-.188.264-.268"></path><path fill="#CD1543" d="M20.336 29.44c1.073-.3 2.266-.858 2.523-2.051.325.196.428.642.43.915.024 1.492-.628 2.783-.311 4.35.034.178.357.731.211.666-.179-.078-.558-.436-.764-.271-.259.202-.243.526-.369.45-.472-.285-.97-.711-1.198-1.256-.088-.207-.052-.648-.11-.588-.358.392-1.093.475-1.636.557.123-.11.235-.554.215-.646-.428-.215-1.043.518-1.031.424.021-.234.047-.311.07-.375.32-.935.919-1.886 1.97-2.175M12.359 3.989c.278-.008.483-.179.661-.367-.014.156.216.378.131.546-.105.209-.377.337-.427.531-.112.396.21.787-.024 1.182-.69 1.168-2.194.782-3.222 1.037.072-.123-.017-.311-.095-.362.455.058 1.064-.04 1.187-.386.147-.424.223-.739.023-1.089-.327-.579-1.012-.31-1.526-.107-.08-.358.257-.577.45-.626.544-.144 1.036-.379 1.545-.569.443-.166.844.221 1.297.21m-.761.58c.046-.021.068-.052.063-.057-.389-.546-.857-.49-1.056-.005-.135.329.647.223.993.062M32.216 6.188c-.147.126-.394.12-.56.237-.102.072-.194.144-.3.209a2.138 2.138 0 0 1-.25.111c-.151.037-.119.019-.257.037a1.161 1.161 0 0 1-.204.016c-.082 0-.337.008-.417.006-.195-.004-.229.01-.426-.021a1.96 1.96 0 0 1-.326-.087.78.78 0 0 0-.222-.035c.008-.081.018-.163.08-.218.082-.068.099-.006.216-.017l.176.013.091-.004a.556.556 0 0 0 .139-.041c.061-.029.123-.046.177-.087.017-.019.039-.03.059-.052.039-.035.092-.053.128-.098.111-.138.195-.27.205-.443a1.606 1.606 0 0 0 0-.398.267.267 0 0 1-.01-.062c-.008-.104-.06-.198-.11-.295-.298-.568-1.013-.014-1.504-.038 0-.106-.011-.308.045-.378.35-.452.89-.229 1.172-.437.942-.7 1.193-.196 2.181.077.295.082.719-.104.997-.224.07-.028.068.417.034.506-.117.313-.442.298-.555.577-.166.413-.192.993-.627 1.198m-.614-1.879c.043-.023-.034.034 0-.002-.425-.212-.979-.49-1.173.074-.143.419.804.129 1.173-.072"></path><path fill="#CD1543" d="M21.692 26.396c.436.104.912.115 1.193-.267.14.593-.403.667-.502.955-.153.44-.144.88-.569 1.109-.849.453-1.912.997-2.886 1.073.008-.118-.074-.337.082-.346a.807.807 0 0 0 .684-.47c.105-.282-.015-.962-.27-1.095-.294-.156-.551.082-.82.201-.113-.3.353-.793 1.083-.752-.02-.001.361-.414.343-.402.479-.326 1.001-.162 1.662-.006m-1.297.763c.168.062.669-.214.851-.315.043-.023.075-.068.109-.104.003-.003-.003-.013-.011-.013-.144-.031-.272-.043-.414-.061-.104-.011-.184-.08-.29-.102a.14.14 0 0 0-.08.008c-.04.017-.056.045-.087.061-.051.022-.122.022-.17.062-.046.044-.087.084-.1.146a.272.272 0 0 0 .045.229.296.296 0 0 0 .147.089M34.933 22.259c-.014-.143.347-.571.354-.887.033-1.067.679-1.572.698-2.714.004-.299-1.23-.577-1.283-1.221-.025-.318-.133-.778.188-.773.409.008.81-.063 1.101-.319 1.29-1.138.2-2.69.044-4.06-.035-.301.522-.947.506-1.16-.089-1.162-.305-2.225.11-3.367-.324.291-.423.77-.695 1.017-.132.12-.196-.147-.188-.192.164-1.006.563-1.886 1.029-2.838.551-1.135.273-2.055-.746-2.391-.932-.311-1.834.557-1.936 1.453-.092.816.162 1.799.357 2.471.054.195.021.418.062.588.168-.676.187-1.383.175-2.1-.002-.176.138-.409.316-.463.605-.175.921.264.88.605-.133 1.074-.351 1.895-.606 2.959-.292 1.221.144 2.426.271 3.606-.466-.272-.974-.286-1.153.44-.099.388.25.795.357 1.135.011-.463.449-1.098.875-.813.523.347.542 2.015.428 2.238-.255.482-.672.829-1.252.656-.326-.095-.193-.579-.39-.782-1.041-1.077-1.516-2.363-1.604-3.853-.013-.216.102-.788.069-.798-1.362-.562-1.988-.003-2.555.798-.097-.243-.614-.582-.657-.506-.257.48-.183 1.349.203 1.683 1.049.911 2.091 1.52 2.681 2.817-.631.081-1.246.263-1.487.921-.253.689-.166 1.643.559 1.922.593.228 1.608-.025 1.831.004.629.082 1.332.622 1.233 1.217-.005.028-.269 1.418-.87 1.074-.326-.186-.143-.949-.639-1.064-.667-.165-.831.768-.748.688.214-.201.361.131.773.362-1.397-.305-.962.976-.913.836.073-.202.326.006.827-.025.019 0-.109.104-.115.111-.079.131-.117.193-.174.332a.38.38 0 0 0-.017.201.468.468 0 0 0 .067.188c.007.013.02.021.035.03.007.002.026.035.03.035.029.002-.027-.099.054-.105.021-.002.078-.012.094-.006.037.014.086.04.123.048a.59.59 0 0 0 .114.023.368.368 0 0 0 .212-.013c.071-.027.142-.04.207-.087-.088.06.1-.093.094-.074.085-.185.139-.132.159-.165.148-.283.277-.311.604-.271.033.005.093.073.113.101.023.035.09.213.079.146.024.134.105.218.116.342M24.851 9.388c-.084-.056-.114-.185-.174-.238a1.137 1.137 0 0 0-.05-.062.238.238 0 0 1-.054-.113c-.059-.2-.029-.438.151-.568.009-.006.006-.016.009-.023.01-.02.037-.027.042-.044.006-.017.034-.017.025-.04.012.007.013-.012.018-.016.036-.045.038-.129-.031-.152.057.005.115.001.174.017.022.005.048.011.068.014.221.028.499.128.558.353l.077.084c.23.537.152 1.85 1.432 2.165.667.164 1.337.372 2.02.36-.164.665-.162 1.51.364 1.993-.767-.419-1.277-.332-1.947-.963-.296-.281-.99-.669-1.326-.612-.139.026.191-.442-.115-.533-.203-.061-.742-.047-.835.091-.442.666-.908.663-1.064.796.182-.153-.724-.891.399-1.289.106-.039.146-.285.014-.345-.22-.104-.402.048-.619.174-.249.15-.306-.392-.696-.19-.081-1.155.948-1.256 1.562-.533.043.053.215-.013.144-.076l-.146-.25z"></path><path fill="#231F20" d="M4.551 26.738 20.495 14.06l15.968 12.331-.655 1.973L20.495 16.68 5.327 28.835z"></path><path fill="#231F20" d="m6.589 31.951 13.906-11.382 13.978 10.792-.954 1.916-13.024-10.006L7.564 33.773z"></path></svg>
+        </div>
+        
+    </div>
+    <div class="header-bar">
+        <div class="uw-c1"></div>
+        <div class="uw-c2"></div>
+        <div class="uw-c3"></div>
+        <div class="uw-c4"></div>
+    </div>
+</div>
+<div class="UW-header-print">
+    <div class="header-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="200" version="1.2" viewBox="0 0 789 212"><g id="master signature"><g id="&lt;Group&gt;"><path id="&lt;Path&gt;" d="M194.2 85.2h15.7l13.9 45.1L238.7 85h12.6l15 45.3 13.8-45.1h15.3l-22.8 67.1h-12.7l-15.1-43.6-15 43.6H217z" class="s0"></path><path id="&lt;Compound Path&gt;" fill-rule="evenodd" d="M318.7 85.1h13.5l28.6 67.2h-15.3l-6.1-14.9h-28.2l-6.1 14.9h-15zm15.4 39.3-8.8-21.6-8.9 21.6z" class="s0"></path><path d="M376.8 99.2h-20.3V85.6h55.3v13.6h-20.3v53.1h-14.7zM423 85.6h50.3v13.1h-35.8v13.5H469v13.1h-31.5v14h36.3v13H423z" class="s0"></path><path fill-rule="evenodd" d="M489.6 85.6h30.5c8.4 0 15 2.4 19.4 6.8 3.7 3.7 5.7 8.9 5.7 15.2v.2c0 10.8-5.8 17.6-14.3 20.7l16.3 23.8h-17.1L515.8 131h-11.6v21.3h-14.6zm29.5 32.5c7.2 0 11.3-3.9 11.3-9.5v-.2c0-6.3-4.4-9.5-11.6-9.5h-14.6v19.2z" class="s0"></path><path d="M561.4 85.6h14.7V139h31.2v13.3h-45.9z" class="s0"></path><path fill-rule="evenodd" d="M609.6 119.2v-.2c0-19 15-34.5 35.6-34.5 20.5 0 35.3 15.3 35.3 34.3v.2c0 19-14.9 34.5-35.5 34.5s-35.4-15.4-35.4-34.3zm55.6 0v-.2c0-11.4-8.4-21-20.2-21-11.9 0-20.1 9.4-20.1 20.8v.2c0 11.4 8.4 21 20.3 21 11.8 0 20-9.4 20-20.8zM684.6 119.2v-.2c0-19 15-34.5 35.6-34.5s35.4 15.3 35.4 34.3v.2c0 19-15 34.5-35.6 34.5s-35.4-15.4-35.4-34.3zm55.6 0v-.2c0-11.4-8.4-21-20.2-21-11.8 0-20 9.4-20 20.8v.2c0 11.4 8.4 21 20.2 21 11.8 0 20-9.4 20-20.8z" class="s0"></path><path d="M231.5 51.9V34.3h6.7v17.4c0 5 2.5 7.6 6.6 7.6 4.2 0 6.7-2.5 6.7-7.4V34.3h6.7v17.3c0 9.4-5.2 13.9-13.4 13.9-8.3 0-13.3-4.6-13.3-13.6zM276.2 34.3h6.3l14.4 18.9V34.3h6.6V65h-5.7l-14.9-19.5V65h-6.7zM322.8 34.3h6.7V65h-6.7zM346.1 34.3h7.5l8 21.6 8.1-21.6h7.3l-12.5 31h-5.9zM393.3 34.3h23.2v6H400v6.2h14.5v6.1H400V59h16.7v6h-23.4z" class="s0"></path><path fill-rule="evenodd" d="M434.2 34.3h14.1c3.9 0 6.9 1.1 9 3.1 1.7 1.7 2.6 4.1 2.6 7v.1c0 5-2.7 8.1-6.6 9.6l7.5 10.9h-7.9l-6.6-9.8H441V65h-6.8zm13.7 15c3.3 0 5.1-1.8 5.1-4.4v-.1c0-2.9-2-4.4-5.3-4.4H441v8.9z" class="s0"></path><path d="m475.4 60.6 4-4.8c2.8 2.3 5.7 3.7 9.2 3.7 2.8 0 4.4-1.1 4.4-2.9v-.1c0-1.7-1-2.6-6.1-3.9-6.2-1.6-10.2-3.3-10.2-9.4v-.1c0-5.6 4.5-9.2 10.7-9.2 4.5 0 8.3 1.4 11.4 3.9l-3.5 5.1c-2.7-1.9-5.4-3.1-8-3.1-2.5 0-3.9 1.2-3.9 2.7v.1c0 2 1.3 2.7 6.6 4 6.3 1.7 9.8 3.9 9.8 9.3 0 6.1-4.7 9.6-11.3 9.6-4.7 0-9.4-1.7-13.1-4.9zM517.5 34.3h6.8V65h-6.8zM550.7 40.5h-9.4v-6.2h25.5v6.2h-9.4V65h-6.7zM592.2 52.9l-11.8-18.6h7.9l7.3 12.3 7.5-12.3h7.6l-11.8 18.5V65h-6.7z" class="s0"></path><path fill-rule="evenodd" d="M649.2 49.8v-.1c0-8.8 6.9-15.9 16.4-15.9 9.4 0 16.3 7 16.3 15.8v.1c0 8.7-6.9 15.9-16.4 15.9-9.5 0-16.3-7.1-16.3-15.8zm25.6 0v-.1c0-5.3-3.9-9.7-9.3-9.7-5.5 0-9.3 4.3-9.3 9.6v.1c0 5.2 3.9 9.6 9.4 9.6 5.4 0 9.2-4.3 9.2-9.5z" class="s0"></path><path d="M696.4 34.3h23.4v6.1h-16.7V47h14.7v6.1h-14.7V65h-6.7zM41.6 43.5l-.1-.1.1.1zM127.9 94.3c.1.1 0 0 0 0zM109.6 182.1q0 .1-.1.2zM140.5 45c0 .1.2-.1 0 0z" class="s0"></path><path fill-rule="evenodd" d="m170.4 34.2-.1 1.4-.2 9.4c-.8 40.8-1.6 79.3-25.7 116.3-10 15.2-25.2 27.9-44.1 36.7l-.6.3-.5-.3c-19-8.8-34.2-21.5-44.2-36.7-24.1-37-24.9-75.5-25.7-116.3q-.1-4.7-.3-9.4v-1.4zM73 69.6c-3.1 2.6-8.8.4-11.4 3-2.5 2.5 3.9 4.1 6.4 5.3.9.4 1.8 1.4 1.7 2.5-3.9-2.3-8.7.4-8.4 4.5.1 3.2 4 5.1 7.2 5.4 1.3.1 2.1 1.6.5 2.6-2.9 1.7-6 3.7-9.1.5-.5-.5-2.3-.2-2.7.8-.1.5-.2 1.2-.1 1.7.1-.3.3-.7.6-.7s.7.4.6.6c-.2 1.5-2.3.5-2.9 1.7l-.1.1q-.1.2-.1.3c-.5.8-1 1.4 0 2 0-.1.5.7.5.8 0-.7.8-.7.8-.7h.5l.4.2c.5.1.2.5 0 .7-.4.2-.7.6-1 1-.2.3-.3.6-.3 1q.1.4.3.8l.3.3.3.3c-.2-.3.4-.7.5-.7 2.6 1.5 2.7-1.5 4.3-2.5.6-.4 2.1.1 1.7 1.4 1.5-.8 2-2.9 3.2-4.2 2.6-2.8 6.3-4.7 9.8-6.3-1.3-1.3-3.2-2.4-4.1-4-.5-.7-1-2.2 0-1.9 4.3 1.1 6.7-1.5 7.2-4.9 6.4.8 8-5.2 8.9-9.8.4-2.2 1.6-2.4.3-6.1-.6-1.6 2.8-2.1 2.2-4.8-.1-.8-1.1-1.5-1.6-1.6.5 1.4-1.9 1.8-2.2 2.4-.4.9-1 1.7-1.1 2.7-2.1-2.9-.4-6.3 1.5-9 2.9-3.9 8.8-1.9 11.3.6 0-1.2-1-2.8-1.8-3.6 2.3-.3 4.9 1.1 8-.6 1.8-.9 3.7-1.8 4.5-3.9-3.8.5-9.1-2.5-12.6-3.1-6.5-1.1-10.9 3.3-13.2 8.6-2.4 5.3-.9 9.3 1.6 13.2.7 1-2.2.4-3.3 1-1.1.5-1.6 1.9-1.3 3.1 1.4-1.5 5.1-.6 5.4 2 .4 3.4-3 8.5-6.4 7-3.6-1.7-5.6-5.5-6.8-9.7zm74.9-19.2c-.1-.2-.8-2.4-1.1-1.5-1.5 4.6-5.2 6.1-8.9 8-2.6 1.3-9.4 7.1-7 9.2-.3-.2 3.7 1 5.1 2.4.3.3 1.5-2.8 6.5-2.7 1.5.1 2.9.6 4.2 1.4-.8-5.7 3.1-11.2 1.2-16.8zm-17 15.7zm0-19c1.8.1 4.4-2 5.5.1.2.4.4.7.4 1.1q0 .1.1.2V50c-.1.6-.4 1.1-.8 1.6-.1.2-.3.3-.5.4l-.2.2-.6.3-.6.2h-.3l-.6-.1c-.5.1-.5-.2-.8.1-.3.2-.3.5-.3.8q.4 0 .8.1.6.2 1.2.3c.7.2.8.1 1.6.1h1.5c.3 0 .5 0 .8-.1.5 0 .4 0 .9-.1.2 0 .8-.3.9-.4.4-.2.8-.5 1.1-.8.6-.4 1.5-.4 2-.8l-.1.1c1.6-.7 1.7-2.9 2.3-4.4.4-1 1.6-1 2-2.1.2-.3.2-2-.1-1.9-1 .5-2.6 1.1-3.7.8-3.6-1-4.6-2.8-8.1-.3-1 .8-3 0-4.3 1.7-.2.2-.1 1-.1 1.4zm-4.9 1.3c1.8 2.7 5.1 3.5 7.9 1.3.2-.3.8-.2 1.2 0-2.5-2.9-4.7-1.2-6.9-1-.6.1-1.5-.4-2.2-.3zm-11 1.1c.2-.1.8 0 .9.1.1.3.1.6.3.8.3.4.5.4.8.5.6.3 1.1.4 1.7.3l.2.1c.2.2-.1.7-.4.8-.4.1-.9-.1-1.2 0-1.5.6-1.5 4.2-1.3 3.7.2-.4 1.3-.1 2 0 1.2.2 2-2 2.7-2 1.8.2 3.5 2.4 4.1 3.8.1.3-.7.3-.8 1.2 2.4-.3 4.4 1.3 6.2 2.7.8-1.5 1.7-2.4 2.6-3.3-3.6-3.5-10.7-4.6-9.6-11 .1-.8-.8-1.5-1.2-1.9-.5-.5-1.5-.5-2.2-.7.7 1.5-.5 1.6-.4 3.8 0 .1-.2.1-.2 0-.5-.2-.8-.4-1.3-.7-.3-.2-.7-.1-1.1-.1q-.4.1-.7.3c-.3.3-.5.6-.7.9l-.2.2c0 .1-.2.3-.2.5zm-4.9 17.3c1.4-.8 1.7 1.2 2.6.7.8-.5 1.5-1.1 2.3-.7.5.2.3 1.1-.1 1.3-4.1 1.5-.8 4.2-1.5 4.8.6-.5 2.3-.5 4-3 .3-.5 2.3-.5 3.1-.3 1.1.3-.1 2.1.4 2 1.2-.2 3.8 1.2 4.9 2.2 2.5 2.4 4.4 2 7.2 3.6-2-1.8-2-4.9-1.4-7.4-2.5 0-5-.7-7.4-1.3-4.8-1.2-4.5-6.1-5.3-8l-.3-.4c-.2-.8-1.2-1.1-2.1-1.3h-.2c-.2-.1-.4 0-.7-.1.3.1.3.4.2.6-.1 0-.1.1-.1.1s-.1 0-.1.1-.1.1-.2.2v.1c-.7.4-.8 1.3-.6 2.1l.2.4.2.2c.3.2.4.7.7.9l.5.9c.3.2-.4.5-.5.3-2.3-2.7-6.1-2.3-5.8 2zm3.3 6.1zm44.7 53.2L99.9 79.9l-58.5 46.3q1.3 4.1 2.9 8.1l55.6-44.1 55.3 44q1.6-4.1 2.9-8.1zM57.5 47.3c1.9-.8 4.4-1.8 5.7.4.7 1.3.4 2.4-.1 4-.5 1.3-2.7 1.6-4.4 1.4.3.2.6.9.3 1.4 3.8-1 9.4.4 11.9-3.9.9-1.4-.3-2.9.1-4.4.2-.7 1.2-1.1 1.6-1.9.3-.6-.5-1.5-.5-2-.6.7-1.4 1.3-2.4 1.3-1.7.1-3.2-1.4-4.8-.8-1.9.7-3.7 1.6-5.7 2.1-.8.2-2 1-1.7 2.4zm15.6-.4c.2 3.4-1.1 6.8-4.1 8.6-4.1 2.4-9.2 4-10.6 9.1-.6 1.8-1.2 6.1-.3 7.9.3-1 .9-1.9 2-1.9 4-.1 5.1-.9 7.8-2.9 1-.7 3.5 2.1 3.4 1.7 0-.4-.2-2.7.4-2.3.9.8 2.5 1.2 3.8 1.3-3.3-3.7.8-7.9.8-11.8.1-3.3-1.1-7-3.2-9.7zm-9.9-1.4c.7-1.8 2.5-2 3.9.1l-.2.2c-1.3.6-4.2 1-3.7-.3zM51.5 50c2.4 3.7 8 .7 10 1.4-2.6-4.5-7.1-.7-10-1.4zm-11.1-2.7c-1 .9-2 .2-2.8 1.9 1.2-.5 1.3 1.3 1.8 1.4 2.3.3 4 .7 5.3 3 .7 1.4-1.4 1.5.5 1.8 1 .2 1.6.6 2.1 1.3.5.8.6 1.7 1.2 2.4.4.5.5.6 1 1 .2.2.9.4 1.2.4l.6.3c.3.1.6.2.8.4.2.1.7.3.8.5.2.4 0 .8.2 1.2.1.1.4 0 .5 0 .1.1.4.1.5.1.4-.1.5-.2.9-.2.5-.1.5.1 1.1.1.2 0 .2.1.4.1s.4.1.4 0c.2-.6.6-1.3.9-1.9.4-.6.4-.7.9-1.3-.1 0 .6-.5.5-.5-7-1.5-13.2-6.7-11.7-13.3 0-.1-.3-1.7-.9-2-.1 0-.2-.2-.3-.2q-.3-.1-.7-.3c-.1-.1-.4-.2-.4-.3-.1.3-.1.5-.3.7 0 .1-.1.3-.2.3-.2.1-.2.2-.3.3-.5.5-.2 1.3-.1 1.9 0 .2.1.4-.1.4-.3 0-.1-.1-.3-.2-.1-.1-.2-.2-.3-.2-.1 0-.5-.1-.6-.2 0-.1 0-.2-.1-.3-.3-.2-.3-.6-.5-1.1 0 0-.1-.4-.1-.5 0-.4-.7-.9-.8-.9q-.1-.1-.5-.2c-.4-.1-.8-.1-1.3-.1-.1 0-.1.1-.2.2-.4.3-.8.7-1.4.7.1 0 .1.1.1.2.3.3.1.8.3 1.1.1.4.4.7.7 1 .4.2.9-.1 1.2.3 0 0 .5.2 0 .7zm1.1 23.1c1.3-.6 1-1.4 1.8-1.4 1.3-.2 1.5 0 1.8.8.1.4-.1.9-.2 1.1 1.7.2 2.9-2 4.3-1.4 2.2.9 5.5 1.9 6.6 1 .4-.2-.5-2.3.3-4.7-3.5 1.7-7.5.6-10.8-1-1.8-.8-1.5-3.6-3.6-4.7-.8-.4-1.6-.4-2.4-.3-.3.1-.6.5-.5.9.4-.4.9.1.8.3-.3 1-.4 1.1.9 2-4.9-.3-3.3 3.9-2.7 2.9.2-.4 2.1.2 2.1.7.1.4-.1.7-.9 2.2-.2.3.7 2.3.8 1.9.2-1 1.2-.6 1.7-.3zM40.8 86c.4.4.9.7 1.5.8-.1-.1-.1-.3-.2-.3 0-.2 0-.4.1-.6.2-.2.5-.1.7-.2.4-.2.9-.3 1.3-.2l-.1-.1c.3.1.6.5.3.7-.2.3-.6.4-.8.8-.3.5-.1 1.2 0 1.5.2.3.6.5.9.7 0 0 .3.3.4.3 0-.1-.3-.2 0-.5 0-.1.3-.2.4-.2.4.3.8.4 1.3.2.3 0 .5-.1.8-.4.5-.5.5-1 .9-1.5l.9-.6c.7-.4 3.5 1.2 1.5 3.2 2.2-1.3 6-3.4 9.1-2.2-1.9-3-.3-7.6 3.2-8.7-3.9-3.8-7.2-3.6-8.6.3-.8 1.9 1.5 4.2-.8 5.2-1.2.5-2.5.2-3.7-.3-2.4-.8-.9-3.8-2.8-5.3-1.3-1.1-4.4-.9-4.4 1.7.1-.1.4-.4.7-.2.5 1.4.5 1.7 1.8 2.1.3 0-.1.7-.3.6-.5-.1-.9-.1-1.3-.2-.5-.3-1.1-.3-1.7-.2q-.5.2-.9.6-.1.2-.3.3-.1.2-.2.5c-.2.3-.2.7-.2 1.1 0 .1 0 .2.1.4 0 .1 0 .2.1.3.1.2.2.3.3.4zM75 152.8c.2-.8.4-2.1 1.6-1.6 1 .4 1.3 1.6 1 2.8 1.7-.5 4.7-2.3 6.5-1 2.4 1.7 6.4 2.5 9.2 3.3-1.9-1.3-2.5-4.6-2.2-6.8-4.4.8-9.1.7-13.2-1.2-1.1-.6-.9-1.8-1.3-2.9-.4-1.2-1.9-2.3-3.3-2.2-.7 0-2.5 1.6-2.1 1.7-.2-.1-.1.2-.2.3.3-.2.8 0 .9.3.1.3.2.6.4.8.3.2.7.3.9.6.7 1.5-3.1-1-4.6 1.3-.5.7-.2 2.4-.2 3.3.9-.8 1.8.7 3.4-.7.2.1.4.2.2.5-.7.6-1 1.4-.7 2.1.2.5 1.6 1.5 1.6 1.4.2-1 1.9 0 2.1-2zm75.5-7.8-50.6-40.2L49 145.1q1.8 3.7 3.8 7.3l47.1-37.3 46.8 37.2q2.1-3.6 3.8-7.3zm-40.4-11.5c0-1-.4-2.6-1.6-3.3-.9 4.4-5.4 6.4-9.3 7.5-3.9 1.1-6.1 4.6-7.3 8.1-.1.2-.2.5-.3 1.4 0 .3 2.3-2.4 3.8-1.6.1.4-.3 2-.7 2.4 2-.3 4.7-.6 6-2.1.2-.2.1 1.4.4 2.2.9 2 2.7 3.6 4.4 4.7.5.2.4-1 1.4-1.7.8-.6 2.2.7 2.8 1 .6.2-.6-1.8-.8-2.5-1.1-5.8 1.3-10.5 1.2-16.1zm-1.5-8c-1 1.4-2.8 1.4-4.4 1-2.5-.6-4.4-1.2-6.1 0 0 0-1.4 1.5-1.3 1.5-2.7-.1-4.4 1.7-4 2.8 1-.5 1.9-1.3 3-.8.9.5 1.4 3.1 1 4.1-.3.7-1.3 1.7-2.5 1.7-.6.1-.3.9-.3 1.3 3.6-.3 7.5-2.3 10.6-4 1.6-.8 1.6-2.4 2.1-4.1.4-1 2.4-1.3 1.9-3.5zm-10.5 1zm-10.5 5.6c1.9 4 5.4 1.5 8.4 1-.5-.5-2.1-1.6-2.6-1.5-2.9.4-3.6 1.5-5.8.5zm-1.1 40.6c3.5-1.7 6.9-4.1 11-3.2-2.4-2.6-1.6-8 1.8-8.6.1 0-2.2-.4-2.4-.5-2.9-1.9-6.6-3.7-8.6.2-.9 2 .9 3.6 2.2 5.2.3.3-.1.4-.4.5-3.3.9-9.2 1.3-9.5-3.5 0-.5-1.3-.9-2.1-.9-2.4.1-2.4 3.1-2.1 2.9.5-.4 2.1-.2 2 1-.2 1.2-2.5-.6-3.4.6-.7.9-.7 2.5-.1 3.6-.2-.4.3-.7.5-.8 2.5-.4 2.7.5 1.9 2.9 0 .2.8 1.7 1.3 1.8-.1 0 0-.3 0-.4q.1-.2.3-.3c.3-.1.6 0 .9-.1.1-.1.2-.1.3-.2.2-.1.3-.3.5-.5.6-.7 1.1-1.6 2-1.7.5-.1.8.1 1.2.4.8-1.1 1.6-.5 1.9-.5.9 0 .9 1.3.8 2.1zm44.6-22.1c-.7-.3-1.7-.9-2.6-.8-1.1.2-1.5 1.7-2.7 1.9 1.9-6.4-1.8-15.4-8.9-15.2-1.3 0-3 1-3.5 2.5-.4 1.4-.6 3.1.4 4.3 2.3 2.7 4 5.7 3.3 9.4 1.6-1.4 3.1-3.5 3.1-5.8 0-.5 1-.1 1.1-.3 2-2.9-1.2-4.6-2.9-6.4-.4-.5.8-1.2.9-1.2 6.1 1.8 6.6 9.3 4 14.2-.6-.9-3.2-.6-4.1-.9 2.9 1.4 2.1 1.6 2 2.1-.2.8-2.8.5-3.2 1.1-.9 1.1-1.5 1.6-1.6 5.2 1.2-1.3 2.7-3.2 4.4-2.4 3.5 1.9-.2 8-3.6 9.1-2.8.8-5.5-.1-7.3-2.6-2.6-3.6-.7-8-2.5-11.7-1.5.4-1.2 2.4-2 2-2.8-1.3-4.4-4.3-6.4-6.8-.8.3-1.2 1.1-2 1.1-1.2-.1-3.5-.5-4 .1-.5.8-.9 5.8 4 7.7 3.4 1.2 6 2.4 8.2 5-1.5.1-2-.6-3.1-.6-1.2-.1-1.9.4-2.7.8-.9.4-1.8 2.1-1.7 3.4.8 6.1 8 6.2 11.4 10.1.5.7-.9 3.3-2.3 4.4-1.1.9-3.9-1.4-3.5-3.3.4-1.6-3.4-2.7-4.7-.9.5 0 .6.3.6.6-.2 1.4 1.6 1.5 1.5 2.2-.1 1-1-.4-1.7-.6-1.5-.3-3 .3-3.9 1.5-.3.4-.9 1-.6 1.6 1.1-.6 1.8 1.3 2.9.7.6-.4 1.2-.9 2-.7.3 0 .6.5.3.7-2.1 1.3-3.8 3.3-2.3 5.4.1-.5.5-.8.8-.9.6-.2 1.4.2 2 0 1-.3.5-1.3.9-2 .6-1.1 2.6-2.9 3.8-1.6.2.2 0 1.1-.6 1.2.6-.1 1.2.5 1.7.4.2 0 .3 0 .5-.1.1 0 .2 0 .3-.1.3-.3.5-.6.6-1 .4.1 1 .1 1.3-.3.3-.3.6-.6.9-.8h-.1l.2-.2q-.1.1-.1.2c2.2-2.3 3.8-5.3 6.2-7.4-2.6-1.6-5.9-3.3-6.3-6.8 0-.2.4-.5.5-.4 3.7 2 8.7 2.2 11.4-1.6 2.1-3 3.1-8 7.3-8.3-1.4-2.7.1-5.8 2.4-7.2zm-46.2-11.8c-1.8-.5-2-2.5-3.6-3.1-1.1-.4-2.7.4-2.9 2.2.4-.1.8 0 .8.3.5 1.8 3 .7 3.1 2 0 .8-1.9-.2-2.7.4-1 .6-1.2 2.6-.3 3.7 1-.8 2.1.5 3-.2.7-.4.9-1.1 1.5-1.4 2-.8 2.6 1 2.2 2.8 1-.5 3.5-1 4.1-1.2 1-.3 1.1-2.6 2.3-3.5-1.8 0-4-.8-4.5-2.6 0-.2.1-.4.1-.6.1-.7 0-1.3-.3-1.9 0-.1-.1-.2-.1-.2q-.1-.2-.2-.3c-.2-.3-.4-.4-.7-.6-.1 0-.3-.1-.3-.2-.1-.1-.3-.2-.5-.2q-.3-.2-.6-.2c-.1 0-.4-.1-.5-.1 0 .1.2.4.1.5-.3.2-.3.2-.5.5q-.1.1-.2.3c-.1.3-.2.6-.2.9 0 .1.1.5.1.6 0 .1.2.4.2.5 0 0 .4.3.3.3.5.5.1.2.6.7.3.3-.1.7-.3.6zM140 85.4c.6-1.5-2.4-4.3-4.6-3.5-2.8 1-1.6 4.6-2.1 7-.3 1.4-2 2.4-3.5 1.9-2.3-.8-3.2-2.9-3.8-5.4-.4-1.6-3.6-1.8-4.2-.5-2 3.8 1.1-.4.9 2.5 0 .4-2.2.1-2.7 1.8-.4 1.1.7 1.9 2.1 2.3.2.1-.3-.6.1-.7.2-.1 1.2.4 1.1.5-1.3.8-1.7 2.7.7 3.5 0 0-.2-.6 0-.8 1.8-1.3 3.7 0 3.8.1q.1.2.2.2c0 .1 0 .2.2.7 2.7-1.2 5.4-2.4 8.4-1.2-1.3-6 3.1-7.5 3.4-8.4zm17.3-44.1c-3.5-1.2-6.8 2-7.2 5.3-.3 3.1.6 6.7 1.4 9.2.2.7 0 1.5.2 2.2.6-2.5.7-5.2.6-7.8 0-.7.5-1.5 1.2-1.7 2.2-.7 3.4 1 3.3 2.2-.5 4-1.3 7-2.3 11-1.1 4.5.5 8.9 1 13.3-1.7-1-3.6-1.1-4.3 1.6-.3 1.5 1 3 1.4 4.2 0-1.7 1.6-4 3.2-3 1.9 1.3 2 7.5 1.6 8.3-1 1.8-2.5 3.1-4.6 2.4-1.2-.3-.8-2.1-1.5-2.9-3.8-4-5.6-8.7-5.9-14.2-.1-.8.4-2.9.2-3-5-2.1-7.3 0-9.4 3-.4-.9-2.3-2.2-2.4-1.9-1 1.8-.7 5 .7 6.2 3.9 3.4 7.7 5.6 9.9 10.4-2.3.4-4.6 1-5.5 3.5-.9 2.5-.6 6 2.1 7.1 2.2.8 5.9-.1 6.8 0 2.3.3 4.9 2.3 4.5 4.5 0 .1-1 5.2-3.2 3.9-1.2-.6-.5-3.5-2.4-3.9-2.4-.6-3 2.9-2.7 2.6.8-.8 1.3.4 2.8 1.3-5.1-1.1-3.5 3.6-3.3 3.1.2-.7 1.2 0 3-.1.1 0-.4.4-.4.4-.3.5-.4.7-.6 1.2-.2.3-.1.5-.1.8q0 .3.2.7.1 0 .2.1l.1.1c.1 0-.1-.4.2-.4h.3c.2.1.3.2.5.2q.2 0 .4.1c.4 0 .5 0 .8-.1.2-.1.5-.1.7-.3q-.1.1.1 0h-.1c.1 0 .4-.3.4-.3.3-.7.5-.5.6-.6.5-1 1-1.1 2.2-1 .1 0 .4.3.4.4.1.1.4.8.3.5.1.5.4.8.5 1.3-.1-.5 1.2-2.1 1.3-3.3.1-3.9 2.5-5.8 2.6-10 0-1.1-4.6-2.2-4.8-4.5-.1-1.2-.5-2.9.7-2.9 1.5 0 3-.2 4.1-1.2 4.7-4.2.7-9.9.1-15-.1-1.1 2-3.5 1.9-4.3-.3-4.3-1.1-8.2.4-12.4-1.2 1-1.5 2.8-2.6 3.7-.4.5-.7-.5-.7-.7.6-3.7 2.1-7 3.9-10.5 2-4.2 1-7.6-2.8-8.8zm-4.1 69.9zM140.6 45zm0 0zm-38.1 83.1c-.6.4-2.5 1.4-3.1 1.2-.2-.1-.4-.2-.5-.3-.2-.2-.3-.6-.2-.9 0-.2.2-.4.4-.5.1-.2.4-.2.6-.3.1 0 .2-.1.3-.2h.3c.4.1.7.3 1.1.4.5 0 1 .1 1.5.2h.1c-.2.2-.3.3-.5.4z" class="s0"></path><path d="M148.8 110.9h-.1q0 .1.1 0zM140.5 45c-1.5-.8-3.6-1.8-4.3.3-.5 1.5 3 .4 4.3-.3 0 .1.2-.1 0 0" class="s0"></path></g></g></svg>
+    </div>
+</div>
+    
+    <div id="local-copy-info" class="no-print">
+<p style="font-style: italic; text-align: center; margin: 2rem 0">
+  This is an offline copy which can be shared, archived, or embedded. <br><a href="https://outline.uwaterloo.ca/viewer/view/nj9cyh">view original document online</a><br>
+If you require a PDF version for any reason please use your browser's <button onclick="print()">print</button> function.
+</p>
+        </div>
+    
+    
+<div id="revisions">
+    
+    <div id="revision-current">
+        Published January 8, 2025 (latest)
+    </div>
+    
+    <div id="revision-history">
+        <details>
+            <summary>Revision History</summary>
+            <ul>
+                
+                <li>
+                    
+                        <a href="https://outline.uwaterloo.ca/viewer/view/nj9cyh" class="revision-active"> 
+                            January 8, 2025 (latest)
+                        </a>
+                    
+                </li>
+                
+                <li>
+                    
+                    <a href="https://outline.uwaterloo.ca/viewer/view/nj9cyh-13951" class=""> 
+                        January 3, 2025
+                    </a>
+                    
+                </li>
+                
+            </ul>
+        </details>
+    </div>
+    
+</div>
+
+    <div class="clamp-width no-print">
+        
+    </div>
+      <main class="outline-body">
+    <header class="outline-title">
+      <h1>
+                
+          <span class="outline-courses">CS 246</span>
+          <span class="outline-term">Winter 2025</span>
+          <span class="outline-title-full">
+            
+            Object-Oriented Software Development
+            
+          </span>
+          
+          <span class="outline-sections">
+            Section 001, 002, 101-103, 201
+          </span>
+          
+        
+      </h1>
+      <hr>
+    </header>
+    
+    <aside class="outline-toc">
+      <h2>Table of Contents</h2>
+      <ul><li><a href="#class_schedule">
+  Class Schedule
+</a></li><li><a href="#instructor_amp_ta_teaching_assistant_information">
+  Instructor &amp; TA (Teaching Assistant) Information
+</a></li><li><a href="#course_description">
+  Course Description
+</a></li><li><a href="#learning_outcomes">
+  Learning Outcomes
+</a></li><li><a href="#tentative_course_schedule">
+  Tentative Course Schedule
+</a></li><li><a href="#texts_materials">
+  Texts / Materials
+</a></li><li><a href="#student_assessment">
+  Student Assessment
+</a></li><ul><li><a href="#assignment_screening">
+  Assignment Screening
+</a></li></ul><li><a href="#administrative_policy">
+  Administrative Policy
+</a></li><ul><li><a href="#university_policy">
+  University Policy
+</a></li></ul></ul>
+    </aside>
+    
+    <article class="outline-content">
+      
+
+<h2 id="class_schedule" class="header">
+  Class Schedule
+</h2>
+
+
+
+
+<div class="dynamic-component">
+  <figure class="schedule-info">
+    <table>
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th style="width:10rem;">Meet Days</th>
+          <th>Meet Time</th>
+          <th>Location</th>
+          <th>Instructor(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        <tr>
+          
+          <th rowspan="1">
+            CS 246
+            <span class="section">001 <span class="class-type">[LEC]</span></span>
+          </th>
+          
+
+          
+          <td class="meet-days">
+            <div class="days-accessible sr-only">
+              Tuesday, Thursday -
+            </div>
+            <div class="days-visual" title="Tuesday , Thursday" aria-hidden="true">
+              
+                
+                <span class="present">Tue, </span>
+                
+                <span class="present">Thu</span>
+                
+              
+            </div>
+            <div class="date-range">
+              
+               <span style="white-space: nowrap;">Jan 6 - Apr 4</span>
+              
+            </div>
+          </td>
+          <td>10:00AM - 11:20AM</td>
+          <td>MC 1056</td>
+          
+          
+          <td rowspan="1">
+            
+            <div class="instructor-info">
+              <span>Caroline Kierstead</span>
+              <small><a title="Caroline Kierstead (caroline.kierstead@uwaterloo.ca)" href="mailto:caroline.kierstead@uwaterloo.ca">caroline.kierstead@uwaterloo.ca</a></small>
+            </div>
+            
+          </td>
+          
+        </tr>
+        
+        
+        
+        <tr>
+          
+          <th rowspan="1">
+            CS 246
+            <span class="section">002 <span class="class-type">[LEC]</span></span>
+          </th>
+          
+
+          
+          <td class="meet-days">
+            <div class="days-accessible sr-only">
+              Tuesday, Thursday -
+            </div>
+            <div class="days-visual" title="Tuesday , Thursday" aria-hidden="true">
+              
+                
+                <span class="present">Tue, </span>
+                
+                <span class="present">Thu</span>
+                
+              
+            </div>
+            <div class="date-range">
+              
+               <span style="white-space: nowrap;">Jan 6 - Apr 4</span>
+              
+            </div>
+          </td>
+          <td>02:30PM - 03:50PM</td>
+          <td>MC 2035</td>
+          
+          
+          <td rowspan="1">
+            
+            <div class="instructor-info">
+              <span>Caroline Kierstead</span>
+              <small><a title="Caroline Kierstead (caroline.kierstead@uwaterloo.ca)" href="mailto:caroline.kierstead@uwaterloo.ca">caroline.kierstead@uwaterloo.ca</a></small>
+            </div>
+            
+          </td>
+          
+        </tr>
+        
+        
+        
+        <tr>
+          
+          <th rowspan="1">
+            CS 246
+            <span class="section">101 <span class="class-type">[TUT]</span></span>
+          </th>
+          
+
+          
+          <td class="meet-days">
+            <div class="days-accessible sr-only">
+              Wednesdays -
+            </div>
+            <div class="days-visual" title="Wednesdays" aria-hidden="true">
+              
+              <span class="present">Wednesdays</span>
+              
+            </div>
+            <div class="date-range">
+              
+               <span style="white-space: nowrap;">Jan 6 - Apr 4</span>
+              
+            </div>
+          </td>
+          <td>10:30AM - 11:20AM</td>
+          <td>MC 3003</td>
+          
+          
+          <td rowspan="1">
+            
+          </td>
+          
+        </tr>
+        
+        
+        
+        <tr>
+          
+          <th rowspan="1">
+            CS 246
+            <span class="section">102 <span class="class-type">[TUT]</span></span>
+          </th>
+          
+
+          
+          <td class="meet-days">
+            <div class="days-accessible sr-only">
+              Wednesdays -
+            </div>
+            <div class="days-visual" title="Wednesdays" aria-hidden="true">
+              
+              <span class="present">Wednesdays</span>
+              
+            </div>
+            <div class="date-range">
+              
+               <span style="white-space: nowrap;">Jan 6 - Apr 4</span>
+              
+            </div>
+          </td>
+          <td>11:30AM - 12:20PM</td>
+          <td>MC 3003</td>
+          
+          
+          <td rowspan="1">
+            
+          </td>
+          
+        </tr>
+        
+        
+        
+        <tr>
+          
+          <th rowspan="1">
+            CS 246
+            <span class="section">103 <span class="class-type">[TUT]</span></span>
+          </th>
+          
+
+          
+          <td class="meet-days">
+            <div class="days-accessible sr-only">
+              Wednesdays -
+            </div>
+            <div class="days-visual" title="Wednesdays" aria-hidden="true">
+              
+              <span class="present">Wednesdays</span>
+              
+            </div>
+            <div class="date-range">
+              
+               <span style="white-space: nowrap;">Jan 6 - Apr 4</span>
+              
+            </div>
+          </td>
+          <td>12:30PM - 01:20PM</td>
+          <td>MC 3003</td>
+          
+          
+          <td rowspan="1">
+            
+          </td>
+          
+        </tr>
+        
+        
+        
+        <tr>
+          
+          <th rowspan="1">
+            CS 246
+            <span class="section">201 <span class="class-type">[TST]</span></span>
+          </th>
+          
+
+          
+          <td class="meet-days">
+            <div class="days-accessible sr-only">
+              Tuesday -
+            </div>
+            <div class="days-visual" title="Tuesday" aria-hidden="true">
+              
+              <span class="present">Tuesday</span>
+              
+            </div>
+            <div class="date-range">
+              
+               <span style="white-space: nowrap;">Mar 4</span>
+              
+            </div>
+          </td>
+          <td>04:30PM - 06:20PM</td>
+          <td></td>
+          
+          
+          <td rowspan="1">
+            
+            <div class="instructor-info">
+              <span>Patrick Roh</span>
+              <small><a title="Patrick Roh (proh@uwaterloo.ca)" href="mailto:proh@uwaterloo.ca">proh@uwaterloo.ca</a></small>
+            </div>
+            
+            <div class="instructor-info">
+              <span>Caroline Kierstead</span>
+              <small><a title="Caroline Kierstead (caroline.kierstead@uwaterloo.ca)" href="mailto:caroline.kierstead@uwaterloo.ca">caroline.kierstead@uwaterloo.ca</a></small>
+            </div>
+            
+          </td>
+          
+        </tr>
+        
+        
+        
+      </tbody>
+
+    </table>
+    <figcaption>schedule data automatically refreshed daily</figcaption>
+  </figure>
+</div>
+
+
+
+<h2 id="instructor_amp_ta_teaching_assistant_information" class="header">
+  Instructor &amp; TA (Teaching Assistant) Information
+</h2>
+
+
+
+<div class="html-block">
+  
+  <h3>Instructors</h3><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Name</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Contact</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;" colspan="2">Office Hours</th></tr><tr><th>Caroline Kierstead</th><th>ctkierst@uwaterloo.ca</th><th colspan="2">See the <a href="https://www.student.cs.uwaterloo.ca/~cs246/W25/officehours.shtml" data-link-index=" (1)">office hours page</a> for details.</th></tr></tbody></table></figure><h3>Instructional Support Coordinator (ISC)</h3><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Name</th><th style="background-color:hsl(0, 0%, 90%);">Office Location</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;" colspan="2">Contact</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;"><a href="https://cs.uwaterloo.ca/about/people/proh" data-link-index=" (2)">Patrick Roh</a></th><th>MC 4013</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;" colspan="2">proh@uwaterloo.ca<br>Contact for questions regarding verification of illness or other documents, course enrolment,<br>alternative arrangements or accommodations, grades, or other administrative questions.</th></tr></tbody></table></figure><h3>Instructional Support Assistants (ISA)</h3><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Name</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Contact</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;" colspan="2">Office Hours</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Michael Raad</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">cs246@uwaterloo.ca</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;" colspan="2" rowspan="3">See the <a href="https://www.student.cs.uwaterloo.ca/~cs246/W25/officehours.shtml" data-link-index=" (3)">office hours page</a> for details.</th></tr><tr><th>William Dan (part-time)</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">cs246@uwaterloo.ca</th></tr><tr><th>David Hao (part-time)</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">cs246@uwaterloo.ca</th></tr></tbody></table></figure><h3>Instructional Apprentices (IAs)</h3><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Name</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Contact</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Ross Evans</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">rpevans@uwaterloo.ca</th></tr></tbody></table></figure>
+</div>
+
+
+
+<h2 id="course_description" class="header">
+  Course Description
+</h2>
+
+
+
+<div class="dynamic-component">
+    <div class="course-descriptions">
+        
+            <div class="description">
+                <div class="cd-title">Calendar Description for CS 246</div>
+                <p class="cd-content">Introduction to object-oriented programming and to tools and techniques for software development. Designing, coding, debugging, testing, and documenting medium-sized programs: reading specifications and designing software to implement them; selecting appropriate data structures and control structures; writing reusable code; reusing existing code; basic performance issues; debuggers; test suites.</p>
+                <div class="cd-reqs">
+                    
+                        <p style="margin-bottom: 0;"><a target="_blank" href="https://acal.fast.uwaterloo.ca/course/1251/CS/246" data-link-index=" (4)">View requirements for CS 246</a></p>
+                    
+                </div>
+            </div>
+        
+    </div>
+</div>
+<div class="html-block">
+  
+  <h3>Course Description</h3><p>This course introduces students to object-oriented programming in C++ to facilitate designing, coding, debugging, testing, and documenting medium-sized programs. Students learn to read a specification and design software to implement it. Important skills are selecting appropriate data structures and control structures, writing reusable code, reusing existing code, understanding basic performance issues, developing debugging skills, and learning to test a program.</p><h3>Course Overview</h3><p>This course will teach the following topics:</p><ul><li>C++<ul><li>Introduction to C++</li><li>I/O and Strings</li><li>Basic language constructs and Functions</li><li>Exceptions</li><li>Introduction to Templates</li><li>Exception safety</li><li>Casting</li><li>Template functions and algorithms</li></ul></li><li>Object-Oriented Programming<ul><li>Classes</li><li>UML class models</li><li>Constructors and Destructors</li><li>Encapsulation</li><li>Inheritance</li><li>Design patterns: Iterator, Observer, Decorator, Factory method, Template method, Non-virtual interface (NVI), and the Pimpl idiom</li><li>Inheritance: vtables</li><li>Multiple inheritance</li><li>Design quality</li><li>MVC (model-view-controller) architecture</li></ul></li></ul>
+</div>
+
+
+
+<h2 id="learning_outcomes" class="header">
+  Learning Outcomes
+</h2>
+
+
+
+
+
+<div class="multitable-blank">No explicit learning outcomes defined for this course.</div>
+
+
+<div class="html-block">
+  
+  <ul><li>Design, implement, test, and debug C++ programs to solve problems requiring hundreds of lines of code, making appropriate use of</li><li>types, variables, arrays, strings, and dynamic memory; loops, conditionals, and other control structures; structures, unions, and enumerations; procedures and functions; the preprocessor; formatted and unformatted I/O</li><li>classes, objects, overloading, and single inheritance</li><li>a subset of the STL, including vector, list, and map</li><li>assertions and exceptions</li><li>test suites for regression testing, white and black box testing</li><li>structured programming, incremental development</li><li>interface design, abstractions, information hiding, cohesion and coupling</li><li>a subset of UML to specify classes, objects and relationships among them</li><li>a selection of design patterns</li><li>Explain the following properties of the memory model used in C++, including their impact on time and space efficiency when designing code: bytes vs. words, memory as an array, run-time stack and stack frames, memory allocation on the heap vs. automatic allocation on the stack, pointers as memory addresses, the representation of objects in memory</li></ul>
+</div>
+
+
+
+<h2 id="tentative_course_schedule" class="header">
+  Tentative Course Schedule
+</h2>
+
+
+
+<div class="html-block">
+  
+  <p>See "Student Assessment" below.</p>
+</div>
+
+
+
+<h2 id="texts_materials" class="header">
+  Texts / Materials
+</h2>
+
+
+
+<div class="html-block">
+  
+  
+  <p><i>Note: Any prices provided in course outlines are best estimates based on recent online prices and do not include shipping or taxes. Prices may vary between retailers.</i></p>
+  
+</div>
+
+
+
+
+<div class="multitable-container">
+  
+  
+  <table class="multitable">
+    
+    <thead>
+      
+      
+      <tr><th>
+        Title / Name
+      </th>
+      
+      
+      
+      <th>
+        Notes / Comments
+      </th>
+      
+      
+      
+      <th>
+        Required
+      </th>
+      
+      
+      
+      <th>
+        Price (CAD)
+      </th>
+      
+      
+    </tr></thead>
+    
+    <tbody>
+      
+      <tr>
+        
+        <td>
+          
+          C++ Primer, 5th edition
+          
+        </td>
+        
+        <td>
+          
+          NOT Required, for student interest only
+          
+        </td>
+        
+        <td>
+          
+          No
+          
+        </td>
+        
+        <td>
+          
+          72.49
+          
+        </td>
+        
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  
+</div>
+
+<div class="html-block">
+  
+  <h3>Suggested Resources</h3><ul><li><a href="https://www.youtube.com/channel/UC1D6YQE_a_vpv75OxExczmw" data-link-index=" (5)">Course YouTube Channel</a><ul><li><a href="https://www.youtube.com/watch?v=SI5u9th9ias" data-link-index=" (6)">Git Tutorial</a></li><li><a href="https://www.youtube.com/watch?v=svG6OPyKsrw" data-link-index=" (7)">GDB Tutorial</a></li></ul></li><li>Recommended (Optional) textbook: Lippman, Lajoie, and Moo. C++ Primer, 5th edition, Addison-Wesley Professional.<br>(See the CS 246 <a href="https://www.student.cs.uwaterloo.ca/~cs246/W25/books.shtml" data-link-index=" (8)">Textbook webpage</a> for further information.)</li><li>Additional resources for the course are also listed on the <a href="https://student.cs.uwaterloo.ca/~cs246/" data-link-index=" (9)">CS 246 course webpage.</a></li></ul>
+</div>
+
+
+
+<h2 id="student_assessment" class="header">
+  Student Assessment
+</h2>
+
+
+
+
+
+
+<div class="multitable-container">
+  
+  
+  <table class="multitable">
+    
+    <thead>
+      
+      
+      <tr><th>
+        Component
+      </th>
+      
+      
+      
+      <th>
+        Value
+      </th>
+      
+      
+    </tr></thead>
+    
+    <tbody>
+      
+      <tr>
+        
+        <td>
+          
+          (See below)
+          
+        </td>
+        
+        <td>
+          
+          
+          
+        </td>
+        
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  
+</div>
+
+
+
+<div style="clear: both; height: 1rem;" class="empty-header"></div>
+
+
+
+<div class="html-block">
+  
+  <h3>Assignments</h3><p>All assignments must be done individually, unless the assignment is explicitly designated as a group assignment. All members of a group receive the same grade (no exceptions). The instructors/staff do not arbitrate group disputes; group members must handle any and all problems. A group assignment may be done individually, but it must be understood that the amount of work is significantly greater and no extra marks are given for this additional work.</p><p>Students may work in pairs while developing test cases for assignments. Each member of the pair must submit a "partner.txt" file that contains the partner's UW userid (not student number) for every submission they worked on together. Different partners may be used for different questions/assignments.</p><p>There will be five regular assignments, the fifth one being a group project, in addition to a preliminary assignment (A0).<br>A0 is due on Monday, January 20 and it is not graded, but you must complete it before you start working on the other assignments. It is designed to get you familiar with the most basic aspects of working with Linux, and with assignment submission. You must complete A0 in order to receive marks for the rest of the course.</p><p>Assignments 1-5 have two due dates. In the first due date, you will submit the first part of the assignment, which is usually focused on preparing the tests for the second part. In the second due date, you will submit all the remaining tasks of the assignment, which are usually focused on coding.</p><p><strong>Note:</strong> Most assignments are expected to be due on Monday before 5:00pm. However, the listed due dates are <strong>tentative</strong>, and are subject to change.</p><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Assignment</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Tentative Topics</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Tentative Due Date 1</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Tentative Due Date 2</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Final Grade Weight</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">A0</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Preliminary Topics</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, January 20</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">N/A</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">0</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">A1</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Basic C++</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, January 20</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, January 27</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">5</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">A2</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Introduction to OOP</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, February 3</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, February 10</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">6</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">A3</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Copy/Move</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, February 24</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, March 3</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">6</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">A4</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Design Patterns</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, March 10</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Monday, March 17</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">8</th></tr><tr><th>A5</th><th>Project</th><th>Monday, March 24</th><th>Monday, March 31</th><th>15</th></tr></tbody></table></figure><p><strong>Note: Marmoset is not a compiler!</strong> Do not submit C++ code to Marmoset, without first attempting to compile it yourself.</p><h3>Assignment 5 (Project)</h3><p>Assignment 5 is designed to be a group project that is to be completed in groups of 3 students. You may do the project in pairs or individually, but you will be expected to produce the same level of work as a group of three. Students from different sections can be in the same group. Working on a group is an important learning experience for software development in a team. Moreover, you have the opportunity to discuss your design and implementation ideas with your teammates. In our experience over the years, this greatly contributes to the quality of your final design. Therefore, we strongly recommend working on the project as a group.</p><p>Students in a group will be responsible for forming and managing the group. Course staff will not be able to help you find a group. However, you are free to use Piazza to post communications to help you find a group.</p><p>Course staff will not help you with managing your team, including solving any conflicts that arise. Please be very careful in selecting your group as there are always groups that end up having major issues every term. Note that generally all group members in a project group will get the same grade.</p><p>The project will include running an in-person demo with course staff for grading. Tentative dates for the demos are from April 2-4.</p><p>Note that extensions cannot be granted for Assignment 5 due to preparation for the demos. If ALL group members are ill and properly registered (either using the 48-hour absence on Quest and/or by a Verification of Illness Form), the group may be granted an incomplete (INC) and have to complete a different project in a subsequent term to clear the INC. If not all group members are properly registered, then Assignment 5 must be handed in by the scheduled deadline and the demo must be held by the remaining group members.</p><h3>Exams</h3><p>In-Person examinations will be held only if students are allowed to have exams on campus. There will be two scheduled in-person examinations for this course. Should holding an in-person examination not be possible, an online version will be held in its place.</p><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Examination</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Date</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Final Grade Weight</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Midterm</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Tuesday, March 4, 4:30-6:20pm</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">20</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Final</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">To Be Announced (by Registrar's Office)</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">40</th></tr></tbody></table></figure><h3>Tutorials</h3><p>Most tutorials will have a set of problem(s) to complete. Each weekly set of problems completed succesfully can be used to replace 0.5% of the final grade from the final exam.</p><h3>Grading Scheme</h3><p>Students are expected to write an in-person examination regardless of circumstances should in-person examinations be held. The grading scheme used will depend on which examinations are allowed to be held in-person.</p><p>In the case where both a midterm and final exam can be held, the final course grade will be calculated from the following components and weights:</p><figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;text-align:center;">Component</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">Final Grade Weight</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;text-align:center;">Assignments (A1-A5)</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">40</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;text-align:center;">Midterm</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">20</th></tr><tr><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;text-align:center;">Final</th><th style="border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">40</th></tr><tr><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;text-align:center;">Total</th><th style="background-color:rgb(229, 229, 229);border-bottom:1px solid rgb(153, 153, 153);border-left:1px solid rgb(153, 153, 153);border-right:1px solid rgb(153, 153, 153);border-top:1px solid rgb(153, 153, 153);padding:5px;">100</th></tr></tbody></table></figure><p><strong>Note:</strong> The weight of the final exam will be increased by 1/3 of the value of the marks lost on the midterm. This provides a "second chance" to earn up to one third of those lost marks back, with good final exam performance. This and the weekly tutorial problems are the only adjustment to grades that will be made in the middle of the term. All other grade adjustments (if any) will be applied at the discretion of the instructors, at the end of the term.</p><p>If the midterm exam cannot be held in person, the midterm will have a weight of 5. Thus, the final weighted score will be out of a final weight total reduced by 15.<br>If the final exam cannot be held in person, the final exam will have a weight of 15. Thus, the final weighted score will be out of a final weight total reduced by 25.<br>Regardless of case, the final weighted score will be converted to a final course grade out of 100 based on the appropriate final weight total.</p><p>To pass the course, you must satisfy these three conditions:</p><ul><li>A grade of at least 45% on the weighted average of assignments A1-A4</li><li>The following weighted average of the midterm and final exam is at least 50%: (20*Midterm% + 40*FinalExam%)/60. (Note: This weighted average does NOT include the weight shift of 1/3 of the value of marks lost on the midterm and does NOT include marks earned from tutorials.)</li><li>A final course grade of at least 50%</li></ul><p>We will apply the following algorithm to determine your final course grade:</p><ul><li><code>Assignments1to4 &nbsp;= (A1*5 + A2*6 + A3*6 + A4*8) / 25</code></li><li><code>Exams = (Midterm*20 + Final*40) / 60</code></li><li><code>OnlineMid = (Midterm*5 + Final*40) / 45</code></li><li><code>OnlineFinal = (Midterm*20 + Final*15) / 35</code></li><li><code>OnlineExams = (Midterm*5 + Final*15) / 20</code></li><li><code>Normal = A1*5 + A2*6 + A3*6 + A4*8 + A5*15 + Midterm*20 + Final*(40-0.5*TutorialsCompleted) + 0.5*TutorialsCompleted</code></li><li><code>MidtermOnline = A1*5 + A2*6 + A3*6 + A4*8 + A5*15 + Midterm*5 + Final*(40-0.5*TutorialsCompleted) + 0.5*TutorialsCompleted</code></li><li><code>FinalOnline = A1*5 + A2*6 + A3*6 + A4*8 + A5*15 + Midterm*20 + Final*(15-0.5*TutorialsCompleted) + 0.5*TutorialsCompleted</code></li><li><code>AllExamsOnline = A1*5 + A2*6 + A3*6 + A4*8 + A5*15 + Midterm*5 + Final*(15-0.5*TutorialsCompleted) + 0.5*TutorialsCompleted</code></li><li><code>if (MidtermInPerson==TRUE &amp;&amp; FinalInPerson==TRUE)</code><ul><li><code>if (Assignments1to4 &lt; 45% OR Exams &lt; 50%)</code><ul><li><code>CourseGrade = min (Normal, 46)</code></li></ul></li><li><code>else</code><ul><li><code>CourseGrade = Normal</code></li></ul></li></ul></li><li><code>if (MidtermInPerson==FALSE &amp;&amp; FinalInPerson==TRUE)</code><ul><li><code>if (Assignments1to4 &lt; 45% OR OnlineMid &lt; 50%)</code><ul><li><code>CourseGrade = min (MidtermOnline/75*100, 46)</code></li></ul></li><li><code>else</code><ul><li><code>CourseGrade = MidtermOnline/75*100</code></li></ul></li></ul></li><li><code>if (MidtermInPerson==TRUE &amp;&amp; FinalInPerson==FALSE)</code><ul><li><code>if (Assignments1to4 &lt; 45% OR OnlineFinal &lt; 50%)</code><ul><li><code>CourseGrade = min (FinalOnline/85*100, 46)</code></li></ul></li><li><code>else</code><ul><li><code>CourseGrade = FinalOnline/85*100</code></li></ul></li></ul></li><li><code>if (MidtermInPerson==FALSE &amp;&amp; FinalInPerson==FALSE)</code><ul><li><code>if (Assignments1to4 &lt; 45% OR OnlineExams &lt; 50%)</code><ul><li><code>CourseGrade = min (AllExamsOnline/60*100, 46)</code></li></ul></li><li><code>else</code><ul><li><code>CourseGrade = AllExamsOnline/60*100</code></li></ul></li></ul></li></ul><p>&nbsp;</p>
+</div>
+
+
+
+<h3 id="assignment_screening" class="header">
+  Assignment Screening
+</h3>
+
+
+
+<div class="html-block">
+  
+  MOSS (Measure of Software Similarities)
+
+MOSS is used in this course as a means of comparing students' assignments to ensure academic integrity. We will report suspicious activity, and penalties for plagiarism/cheating are severe. Please read the available information about academic integrity very carefully. See the course webpage on coding guidelines for further details.
+</div>
+
+
+
+<div class="html-block">
+  
+  
+</div>
+
+
+
+<h2 id="administrative_policy" class="header">
+  Administrative Policy
+</h2>
+
+
+
+<div class="html-block">
+  
+  <h3>Communication</h3><p>The primary means for announcements is the course newsgroup on <a href="https://www.student.cs.uwaterloo.ca/~cs246/W25/piazza.shtml" data-link-index=" (10)">CS246 Piazza</a>. There may be announcements posted on the course website. All students are required to regularly check Piazza for course announcements.</p><p>Please direct questions to the course newsgroup. If there is a good reason not to use the newsgroup (e.g., personal matters, a question that might reveal part of a solution, etc.) either create a private post or email the course staff directly via email.</p><h3>Mental Health</h3><p>If you or anyone you know experiences any academic stress, difficult life events, or feelings like anxiety or depression, we strongly encourage you to seek support.</p><p>On-campus Resources</p><ul><li><a href="https://uwaterloo.ca/campus-wellness/" data-link-index=" (11)">Campus Wellness</a></li><li><a href="https://uwaterloo.ca/campus-wellness/counselling-services" data-link-index=" (12)">Counselling Services</a>: counselling.services@uwaterloo.ca, 519-888-4567 ext 32655, Needles Hall North 2nd floor, (NH 2401)</li><li><a href="https://uwaterloo.ca/campus-wellness/services/uw-mates" data-link-index=" (13)">MATES</a>: one-to-one peer support program offered by the Waterloo Undergraduate Student Association (WUSA) and Counselling Services: mates@uwaterloo.ca</li><li><a href="https://uwaterloo.ca/campus-wellness/health-services" data-link-index=" (14)">Health Services</a>: located across the creek from Student Life Centre, 519-888-4096</li></ul><p>Off-campus Resources</p><ul><li>Good2Talk (24/7): Free confidential help line for post-secondary students. Phone: 1-866-925-5454</li><li>Here 24/7: Mental Health and Crisis Service Team. Phone: 1-844-437-3247</li><li>OK2BME: set of support services for lesbian, gay, bisexual, transgender or questioning teens in Waterloo. Phone: 519-884-0000 extension 213</li></ul><h3>Diversity</h3><p>It is our intent that students from all diverse backgrounds and perspectives be well served by this course, and that students' learning needs be addressed both in and out of class. We recognize the immense value of the diversity in identities, perspectives, and contributions that students bring, and the benefit it has on our educational environment. Your suggestions are encouraged and appreciated. Please let us know ways to improve the effectiveness of the course for you personally or for other students or student groups. In particular:</p><ul><li>We will gladly honour your request to address you by an alternate/preferred name or gender pronoun. Please advise us of this preference early in the semester so we may make appropriate changes to our records.</li><li>We will honour your religious holidays and celebrations. Please inform of us these at the start of the course.</li><li>We will follow AccessAbility Services guidelines and protocols on how to best support students with different learning needs.</li></ul><h3>Intellectual Property</h3><p>Students should be aware that this course contains the intellectual property of their instructor, TA, and/or the University of Waterloo. Intellectual property includes items such as:</p><ul><li>Lecture content, spoken and written (and any audio/video recording thereof);</li><li>Lecture handouts, presentations, and other materials prepared for the course (e.g., PowerPoint slides);</li><li>Questions or solution sets from various types of assessments (e.g., assignments, quizzes, tests, final exams); and</li><li>Work protected by copyright (e.g., any work authored by the instructor or TA or used by the instructor or TA with permission of the copyright owner).</li></ul><p>Course materials and the intellectual property contained therein, are used to enhance a student's educational experience. However, sharing this intellectual property without the intellectual property owner's permission is a violation of intellectual property rights. For this reason, it is necessary to ask the instructor, TA and/or the University of Waterloo for permission before uploading and sharing the intellectual property of others online (e.g., to an online repository).</p><p>Permission from an instructor, TA or the University is also necessary before sharing the intellectual property of others from completed courses with students taking the same/similar courses in subsequent terms/years. In many cases, instructors might be happy to allow distribution of certain materials. However, doing so without expressed permission is considered a violation of intellectual property rights.</p><p>Please alert the instructor if you become aware of intellectual property belonging to others (past or present) circulating, either through the student body or online. The intellectual property rights owner deserves to know (and may have already given their consent).</p><h3>Late Add Policy</h3><p>Students may not join the course after the add deadline has passed.</p><h3>Generative AI</h3><p>This course includes the independent development and practice of specific skills. Therefore, the use of&nbsp;Generative artificial intelligence (GenAI) trained using large language models (LLM) or other methods to produce text, images, music, or code, like Chat GPT, DALL-E, or GitHub CoPilot, is not permitted in this class. Unauthorized use in this course, such as running course materials through GenAI or using GenAI to complete a course assessment is considered a violation of&nbsp;<a href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71" data-link-index=" (15)"><u>Policy 71</u></a>&nbsp;(plagiarism or unauthorized aids or assistance).&nbsp;Work produced with the assistance of AI tools does not represent the author’s original work and is therefore in violation of the fundamental values&nbsp;of academic integrity including honesty, trust, respect, fairness, responsibility and courage (<a href="https://academicintegrity.org/images/pdfs/20019_ICAI-Fundamental-Values_R12.pdf" data-link-index=" (16)"><u>ICAI</u></a>, n.d.).&nbsp;</p><p>You should be prepared to show your&nbsp;work. To demonstrate your learning, you should keep your rough notes, including research notes, brainstorming, and drafting notes. You may be asked to submit these notes along with earlier drafts of their work, either through saved drafts or saved versions of a document.&nbsp;If the use of GenAI is suspected where not permitted, you may be asked to meet with your instructor or TA to provide explanations to support the submitted material as being your original work. Through this process, if you have not sufficiently supported your work, academic misconduct allegations may be brought to the Associate Dean.&nbsp;</p><p>In addition, you should be aware that the legal/copyright status of generative AI inputs and outputs is unclear. More information is available from the Copyright Advisory Committee:&nbsp;<a href="https://uwaterloo.ca/copyright-at-waterloo/teaching/generative-artificial-intelligence" data-link-index=" (17)"><u> </u></a><u><a href="https://uwaterloo.ca/copyright-at-waterloo/teaching/generative-artificial-intelligence" target="_blank" data-link-index=" (18)">https://uwaterloo.ca/copyright...</a></u>&nbsp;</p><p>Students are encouraged to reach out to campus supports if they need help with their coursework including:&nbsp;</p><ul><li><a href="https://uwaterloo.ca/student-success/resources" data-link-index=" (19)"><u>Student Success Office</u></a>&nbsp;for help with skills like notetaking and time management</li><li><a href="https://uwaterloo.ca/writing-and-communication-centre/services-0/services-undergraduate-students" data-link-index=" (20)"><u>Writing and Communication Centre</u></a>&nbsp;for assignments with writing or presentations</li><li><a href="https://uwaterloo.ca/accessability-services/students" data-link-index=" (21)"><u>AccessAbility Services</u></a>&nbsp;for documented accommodations</li><li><a href="https://uwaterloo.ca/library/research-supports/quick-start-guide" data-link-index=" (22)"><u>Library</u></a>&nbsp;for research-based assignments</li></ul><p><strong>Territorial Acknowledgement: </strong>The University of Waterloo acknowledges that much of our work takes place on the traditional territory of the Neutral, Anishinaabeg and Haudenosaunee peoples. Our main campus is situated on the Haldimand Tract, the land granted to the Six Nations that includes six miles on each side of the Grand River. Our active work toward reconciliation takes place across our campuses through research, learning, teaching, and community building, and is centralized within the <a href="https://uwaterloo.ca/indigenous" data-link-index=" (23)">Office of Indigenous Relations</a></p>
+</div>
+
+<div class="html-block">
+  
+  
+  
+  
+</div>
+
+
+
+<h3 id="university_policy" class="header">
+  University Policy
+</h3>
+
+
+
+<div class="html-block">
+  
+  
+  <p><strong>Academic integrity</strong>: In order to maintain a culture of academic integrity, members of the University of Waterloo community are expected to promote honesty, trust, fairness, respect and responsibility. [Check <a href="https://uwaterloo.ca/academic-integrity/" data-link-index=" (24)">the Office of Academic Integrity</a> for more information.]</p>
+
+<p><strong>Grievance: </strong>A student who believes that a decision affecting some aspect of their university life has been unfair or unreasonable may have grounds for initiating a grievance. Read <a href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-70" data-link-index=" (25)">Policy 70, Student Petitions and Grievances, Section 4</a>. When in doubt, please be certain to contact the department’s administrative assistant who will provide further assistance.</p>
+
+<p><strong>Discipline: </strong>A student is expected to know what constitutes academic integrity to avoid committing an academic offence, and to take responsibility for their actions. [Check <a href="https://uwaterloo.ca/academic-integrity/" data-link-index=" (26)">the Office of Academic Integrity</a> for more information.] A student who is unsure whether an action constitutes an offence, or who needs help in learning how to avoid offences (e.g., plagiarism, cheating) or about “rules” for group work/collaboration should seek guidance from the course instructor, academic advisor, or the undergraduate associate dean. For information on categories of offences and types of penalties, students should refer to <a href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71" data-link-index=" (27)">Policy 71, Student Discipline</a>. For typical penalties, check <a href="https://uwaterloo.ca/secretariat/guidelines/guidelines-assessment-penalties" data-link-index=" (28)">Guidelines for the Assessment of Penalties</a>.</p>
+
+<p><strong>Appeals: </strong>A decision made or penalty imposed under <a href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-70" data-link-index=" (29)">Policy 70, Student Petitions and Grievances</a> (other than a petition) or <a href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71" data-link-index=" (30)">Policy 71, Student Discipline</a> may be appealed if there is a ground. A student who believes they have a ground for an appeal should refer to <a href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-72" data-link-index=" (31)">Policy 72, Student Appeals</a>.</p>
+
+<p><strong>Note for students with disabilities: </strong><a href="https://uwaterloo.ca/accessability-services/" data-link-index=" (32)">AccessAbility Services</a>, located in Needles Hall, Room 1401, collaborates with all academic departments to arrange appropriate accommodations for students with disabilities without compromising the academic integrity of the curriculum. If you require academic accommodations to lessen the impact of your disability, please register with AccessAbility Services at the beginning of each academic term.</p>
+
+<p><strong>Turnitin.com: </strong>Text matching software (Turnitin®) may be used to screen assignments in this course. Turnitin® is used to verify that all materials and sources in assignments are documented. Students' submissions are stored on a U.S. server, therefore students must be given an alternative (e.g., scaffolded assignment or annotated bibliography), if they are concerned about their privacy and/or security. Students will be given due notice, in the first week of the term and/or at the time assignment details are provided, about arrangements and alternatives for the use of Turnitin in this course.</p>
+
+<p>It is the responsibility of the student to notify the instructor if they, in the first week of term or at the time assignment details are provided, wish to submit alternate assignment.</p>
+  
+</div>
+
+    </article>
+    <aside class="outline-references-links"><h2>Reference: Links from Document</h2><ol><li><a target="_blank" href="https://www.student.cs.uwaterloo.ca/~cs246/W25/officehours.shtml">https://www.student.cs.uwaterloo.ca/~cs246/W25/officehours.shtml</a></li><li><a target="_blank" href="https://cs.uwaterloo.ca/about/people/proh">https://cs.uwaterloo.ca/about/people/proh</a></li><li><a target="_blank" href="https://www.student.cs.uwaterloo.ca/~cs246/W25/officehours.shtml">https://www.student.cs.uwaterloo.ca/~cs246/W25/officehours.shtml</a></li><li><a target="_blank" href="https://acal.fast.uwaterloo.ca/course/1251/CS/246">https://acal.fast.uwaterloo.ca/course/1251/CS/246</a></li><li><a target="_blank" href="https://www.youtube.com/channel/UC1D6YQE_a_vpv75OxExczmw">https://www.youtube.com/channel/UC1D6YQE_a_vpv75OxExczmw</a></li><li><a target="_blank" href="https://www.youtube.com/watch?v=SI5u9th9ias">https://www.youtube.com/watch?v=SI5u9th9ias</a></li><li><a target="_blank" href="https://www.youtube.com/watch?v=svG6OPyKsrw">https://www.youtube.com/watch?v=svG6OPyKsrw</a></li><li><a target="_blank" href="https://www.student.cs.uwaterloo.ca/~cs246/W25/books.shtml">https://www.student.cs.uwaterloo.ca/~cs246/W25/books.shtml</a></li><li><a target="_blank" href="https://student.cs.uwaterloo.ca/~cs246/">https://student.cs.uwaterloo.ca/~cs246/</a></li><li><a target="_blank" href="https://www.student.cs.uwaterloo.ca/~cs246/W25/piazza.shtml">https://www.student.cs.uwaterloo.ca/~cs246/W25/piazza.shtml</a></li><li><a target="_blank" href="https://uwaterloo.ca/campus-wellness/">https://uwaterloo.ca/campus-wellness/</a></li><li><a target="_blank" href="https://uwaterloo.ca/campus-wellness/counselling-services">https://uwaterloo.ca/campus-wellness/counselling-services</a></li><li><a target="_blank" href="https://uwaterloo.ca/campus-wellness/services/uw-mates">https://uwaterloo.ca/campus-wellness/services/uw-mates</a></li><li><a target="_blank" href="https://uwaterloo.ca/campus-wellness/health-services">https://uwaterloo.ca/campus-wellness/health-services</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71">https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71</a></li><li><a target="_blank" href="https://academicintegrity.org/images/pdfs/20019_ICAI-Fundamental-Values_R12.pdf">https://academicintegrity.org/images/pdfs/20019_ICAI-Fundamental-Values_R12.pdf</a></li><li><a target="_blank" href="https://uwaterloo.ca/copyright-at-waterloo/teaching/generative-artificial-intelligence">https://uwaterloo.ca/copyright-at-waterloo/teaching/generative-artificial-intelligence</a></li><li><a target="_blank" href="https://uwaterloo.ca/copyright-at-waterloo/teaching/generative-artificial-intelligence">https://uwaterloo.ca/copyright-at-waterloo/teaching/generative-artificial-intelligence</a></li><li><a target="_blank" href="https://uwaterloo.ca/student-success/resources">https://uwaterloo.ca/student-success/resources</a></li><li><a target="_blank" href="https://uwaterloo.ca/writing-and-communication-centre/services-0/services-undergraduate-students">https://uwaterloo.ca/writing-and-communication-centre/services-0/services-undergraduate-students</a></li><li><a target="_blank" href="https://uwaterloo.ca/accessability-services/students">https://uwaterloo.ca/accessability-services/students</a></li><li><a target="_blank" href="https://uwaterloo.ca/library/research-supports/quick-start-guide">https://uwaterloo.ca/library/research-supports/quick-start-guide</a></li><li><a target="_blank" href="https://uwaterloo.ca/indigenous">https://uwaterloo.ca/indigenous</a></li><li><a target="_blank" href="https://uwaterloo.ca/academic-integrity/">https://uwaterloo.ca/academic-integrity/</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-70">https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-70</a></li><li><a target="_blank" href="https://uwaterloo.ca/academic-integrity/">https://uwaterloo.ca/academic-integrity/</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71">https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/guidelines/guidelines-assessment-penalties">https://uwaterloo.ca/secretariat/guidelines/guidelines-assessment-penalties</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-70">https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-70</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71">https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-71</a></li><li><a target="_blank" href="https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-72">https://uwaterloo.ca/secretariat/policies-procedures-guidelines/policy-72</a></li><li><a target="_blank" href="https://uwaterloo.ca/accessability-services/">https://uwaterloo.ca/accessability-services/</a></li></ol></aside>
+  </main>
+ 
+
+    
+    <footer class="UW-footer">
+    <div class="copyright">
+        <p>Copyright University of Waterloo</p>
+        <p>For technical support please email OutlineSupport@uwaterloo.ca</p>
+    </div>
+</footer>
+    
+
+<script id="QOL">
+    // Clean up trailing whitespace
+    Array.from(document.querySelectorAll('div.html-block>p:last-child')).filter(p => p.textContent.trim() === '').forEach(p => p.remove());
+    // Find any loose (unlinked) URLs in the document and make them clickable
+    let main = document.querySelector('main.outline-body');
+    //main.innerHTML = main.innerHTML.replace(/(?:^|\s)(https?:\/\/[^\s]+)/g, (match)=>{
+    main.innerHTML = main.innerHTML.replace(/(?:https?|ftp):\/\/[^\s<>"']+?(?=[\s><)\]]|$)(?:<\/a>)?/g, (match)=>{
+      let g = match
+      // Don't linkify if the URL is already in an a tag
+      if (g.endsWith('</a>')) return g;
+      let url = (new URL(match)).hostname.replace(/^www\./, '');
+      let link_text = match.length > 30 ? match.slice(0, 30) + '...' : match;
+      return ` <a href="${match}" target="_blank">${link_text}</a>` 
+    })
+    // get ALL links in the document that are not in the table of contents or mailto
+    let links = Array.from(main.querySelectorAll('a')).filter(a =>{let href=a.getAttribute('href'); return href && !href.startsWith('#') && !href.startsWith('mailto:')});
+    for (let i=0; i<links.length; i++) {
+      let link = links[i];
+      // Add a data link-index attribute to each link
+      link.setAttribute('data-link-index', ` (${i+1})`);
+    }
+    links = links.map(a=>`<li><a target="_blank" href="${a.href}">${a.href}</a></li>`).join('');
+    document.querySelector('aside.outline-references-links').innerHTML = `<h2>Reference: Links from Document</h2><ol>${links}</ol>`;
+    links=undefined
+  </script>
+
+
+<div style="all: initial;"><div id="__hcfy__" style="all: initial;"></div></div><div id="immersive-translate-popup" style="all: initial"></div><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></body></html>
