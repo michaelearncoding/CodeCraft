@@ -1,0 +1,3 @@
+/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246/cmake-build-debug/CMakeFiles/CS_246.dir
+/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246/cmake-build-debug/CMakeFiles/rebuild_cache.dir
