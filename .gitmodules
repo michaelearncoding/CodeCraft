@@ -1,3 +1,6 @@
 [submodule "CS 341/Ref/CS341-spring-2018"]
 	path = CS 341/Ref/CS341-spring-2018
 	url = https://github.com/y87feng/CS341-spring-2018
+[submodule "CS 246/Ref/cs246e-notes"]
+	path = CS 246/Ref/cs246e-notes
+	url = https://github.com/quanpham0805/cs246e-notes
