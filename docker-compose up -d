@@ -1,0 +1,9 @@
+docker-compose up -d
+-d means “detached mode” (run in the background).
+
+
+docker-compose ps
+
+要继续测试不同的code先，compose up 也是马上失败了。。。第一次尝试
+
+

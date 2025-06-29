@@ -8,6 +8,10 @@ plugins {
     kotlin("plugin.jpa") version "1.9.20"
     kotlin("plugin.allopen") version "1.9.20"
     kotlin("plugin.noarg") version "1.9.20"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+    id("io.gitlab.arturbosch.detekt") version "1.23.4"
+    id("com.palantir.docker") version "0.35.0"
+    id("jacoco")
 }
 
 group = "com.datasync"
@@ -82,11 +86,6 @@ tasks.withType<Test> {
 }
 
 // 代码质量检查
-plugins {
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
-    id("io.gitlab.arturbosch.detekt") version "1.23.4"
-}
-
 ktlint {
     android.set(false)
     verbose.set(true)
@@ -102,10 +101,6 @@ detekt {
 }
 
 // Docker 支持
-plugins {
-    id("com.palantir.docker") version "0.35.0"
-}
-
 docker {
     name = "${project.name}:${project.version}"
     files("build/libs/${project.name}-${project.version}.jar")
@@ -133,14 +128,6 @@ tasks.register<Test>("performanceTest") {
 }
 
 // 代码覆盖率
-plugins {
-    id("jacoco")
-}
-
-jacoco {
-    toolVersion = "0.8.11"
-}
-
 tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
