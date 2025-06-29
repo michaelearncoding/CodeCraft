@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246/cmake-build-debug"
+			"value" : "/Users/qingdamai/Documents/0.Growth Project/artifact/CodeCraft/CS 246/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -479,7 +479,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/Users/qingdamai/Documents/0.Growth Project/artifact/CodeCraft/CS 246/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -539,7 +539,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246"
+			"value" : "/Users/qingdamai/Documents/0.Growth Project/artifact/CodeCraft/CS 246"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -1127,7 +1127,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246/cmake-build-debug"
+			"value" : "/Users/qingdamai/Documents/0.Growth Project/artifact/CodeCraft/CS 246/cmake-build-debug"
 		},
 		{
 			"name" : "CS_246_IS_TOP_LEVEL",
@@ -1151,7 +1151,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/qingdamai/Desktop/artifact/CodeCraft/CS 246"
+			"value" : "/Users/qingdamai/Documents/0.Growth Project/artifact/CodeCraft/CS 246"
 		}
 	],
 	"kind" : "cache",

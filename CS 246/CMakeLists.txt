@@ -3,4 +3,7 @@ project(CS_246)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(CS_246 main.cpp)
+add_executable(CS_246 main.cpp
+        PizzaShop.cpp
+#        PizzaShop.h
+)
