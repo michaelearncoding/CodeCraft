@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(CS_246 main.cpp
         PizzaShop.cpp
+#        greet.h
         greet.cpp
 #        PizzaShop.h
 )
