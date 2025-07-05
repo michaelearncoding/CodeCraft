@@ -1,14 +1,24 @@
 #include <iostream>
 #include "PizzaShop.h"
+using namespace std;
+
+void greet(string name = "Guest") {
+    cout << "Hello, " << name << "!" << endl;
+}
 
 int main() {
+    greet();
 
-    PizzaShop shop;
 
-    shop.orderPizza(5);
-    shop.printPoints();
-    shop.redeemPizza();
-    shop.printPoints();
+    
+    // PizzaShop shop;
+
+    // shop.orderPizza(5);
+    // shop.printPoints();
+    // shop.redeemPizza();
+    // shop.printPoints();
+
+
 
     // // I/O (Input/Output)
     // int number;

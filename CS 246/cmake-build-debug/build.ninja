@@ -61,6 +61,12 @@ build CMakeFiles/CS_246.dir/PizzaShop.cpp.o: CXX_COMPILER__CS_246_unscanned_Debu
   OBJECT_DIR = CMakeFiles/CS_246.dir
   OBJECT_FILE_DIR = CMakeFiles/CS_246.dir
 
+build CMakeFiles/CS_246.dir/greet.cpp.o: CXX_COMPILER__CS_246_unscanned_Debug /Users/qingdamai/Documents/0.Growth$ Project/artifact/CodeCraft/CS$ 246/greet.cpp || cmake_object_order_depends_target_CS_246
+  DEP_FILE = CMakeFiles/CS_246.dir/greet.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/CS_246.dir
+  OBJECT_FILE_DIR = CMakeFiles/CS_246.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target CS_246
@@ -69,7 +75,7 @@ build CMakeFiles/CS_246.dir/PizzaShop.cpp.o: CXX_COMPILER__CS_246_unscanned_Debu
 #############################################
 # Link the executable CS_246
 
-build CS_246: CXX_EXECUTABLE_LINKER__CS_246_Debug CMakeFiles/CS_246.dir/main.cpp.o CMakeFiles/CS_246.dir/PizzaShop.cpp.o
+build CS_246: CXX_EXECUTABLE_LINKER__CS_246_Debug CMakeFiles/CS_246.dir/main.cpp.o CMakeFiles/CS_246.dir/PizzaShop.cpp.o CMakeFiles/CS_246.dir/greet.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk
   OBJECT_DIR = CMakeFiles/CS_246.dir
   POST_BUILD = :
