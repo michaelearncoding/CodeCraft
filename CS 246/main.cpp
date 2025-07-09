@@ -11,6 +11,19 @@ struct Point {
     int y;
 };
 
+int getValue() {
+    int x = 10;
+    return x; // Returns a copy of x
+}
+
+int& getReference(int& x) {
+    return x; // Returns a reference to x
+}
+
+void getValue(int& result) {
+    result = 10; // Modifies the passed parameter
+}
+
 void increment(int x ) {
     x++;
 }
@@ -57,7 +70,8 @@ int main() {
     std::cout << *ptr;   // Output: 42
     delete ptr;          // Free the allocated memory
 
-
+    // ptr holds the address of the allocated memory.
+    // *ptr accesses or modifies the value at that memory address.
 
     int num = 5; // Variable declaration and initialization
     increment(num);
