@@ -10,6 +10,23 @@ struct Point {
     int x;
     int y;
 };
+//
+// class Point {
+//
+//     public:
+//         int x, y;
+//
+//         Point(int x = 0, int y = 0) : x(x), y(y) {}
+//
+//         // Overload the + operator
+//         Point operator+(const Point& other) const {
+//             return Point(x + other.x, y + other.y);
+//         }
+//
+//         void print() const {
+//             cout << "(" << x << ", " << y << ")" << endl;
+//         }
+// };
 
 int getValue() {
     int x = 10;
@@ -57,6 +74,12 @@ void increment_passed_by_pointer (int *x) {
 
 
 int main() {
+
+
+    // Point p1(10, 20);
+    // Point p2(5, 15);
+    // Point p3 = p1 + p2; // Uses the overloaded + operator
+    // p3.print();         // Output: (15, 35)
 
 
     int a = 10;
