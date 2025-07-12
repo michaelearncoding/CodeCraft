@@ -31,12 +31,25 @@ struct Girls {
     }
 };
 
+
+
+
 // this operator is defined as a global function, so it can be used outside the class
 // pass the original object by reference - save potential memory and performance issues
 // it's better return some value, so that the front needs to indicate!
 ostream& operator<<(ostream& COUT, const PerfectBFGF& bfgf) {
     COUT  << "Name: " << bfgf.Name << endl;
      COUT <<   ", Outlooking: " << bfgf.outlooking << endl;
+    return COUT;
+}
+
+
+// fix: must put the operatorr << for PerfectBFGF  is defclared before the operator << for girls
+// The compiler needs to know how to handle PerfectBFGF objects before it encounters them in the Girls implementation.
+
+ostream& operator<<(ostream& COUT, Girls& myGirls) {
+    for (PerfectBFGF Sexy : myGirls.myGirls )
+        COUT << Sexy << endl;
     return COUT;
 }
 
@@ -111,7 +124,14 @@ void increment_passed_by_pointer (int *x) {
 int main() {
 
 
+// below example is showing how to use the operator overloading in C++
 
+    //create a perfect boy friend or girl friend using the class PerfectBFGF
+    //make sure we can generate the result with the operator <<
+    // add the operator << for the class PerfectBFGF
+    // fcreate another class called Girls
+    // defined the operator +=
+    // so that the class variable myGirls can be used to store the PerfectBFGF objects
 
     PerfectBFGF gf1 = PerfectBFGF("Chloe", 25);
     PerfectBFGF gf2 = PerfectBFGF("Cao YuXin", 23);
@@ -120,6 +140,7 @@ int main() {
     myGirls += gf1;  // This will call the overloaded += operator to add gf1 to myGirls
     // the above Girls myGirls will be diretly ref by the " operator+=  " with the key wrod "this"
     myGirls += gf2;
+    cout << myGirls;
 
 
 
