@@ -1,10 +1,45 @@
 #include <iostream>
 #include "PizzaShop.h"
 #include "greet.h"
+#include<string>
+#include<list>
 using namespace std;
 
 
+
 const double PI = 3.14159;
+
+// create a struct for the operator constructor reloading
+
+struct PerfectBFGF {
+    string Name;
+    int outlooking;
+
+    PerfectBFGF(string name, int outlooking) {
+        this->Name = name;
+        this->outlooking = outlooking;
+    }
+
+};
+
+
+struct Girls {
+    list<PerfectBFGF> myGirls;
+    // this operator is defined as a member function, so it can be used within the class
+    void operator+=(PerfectBFGF& people) {
+        this->myGirls.push_back(people);
+    }
+};
+
+// this operator is defined as a global function, so it can be used outside the class
+// pass the original object by reference - save potential memory and performance issues
+// it's better return some value, so that the front needs to indicate!
+ostream& operator<<(ostream& COUT, const PerfectBFGF& bfgf) {
+    COUT  << "Name: " << bfgf.Name << endl;
+     COUT <<   ", Outlooking: " << bfgf.outlooking << endl;
+    return COUT;
+}
+
 
 struct Point {
     int x;
@@ -74,6 +109,24 @@ void increment_passed_by_pointer (int *x) {
 
 
 int main() {
+
+
+
+
+    PerfectBFGF gf1 = PerfectBFGF("Chloe", 25);
+    PerfectBFGF gf2 = PerfectBFGF("Cao YuXin", 23);
+
+    Girls myGirls ;
+    myGirls += gf1;  // This will call the overloaded += operator to add gf1 to myGirls
+    // the above Girls myGirls will be diretly ref by the " operator+=  " with the key wrod "this"
+    myGirls += gf2;
+
+
+
+    // cout << gf1;
+
+    // cin.get();
+    cout << gf2 << gf1;
 
 
     // Point p1(10, 20);
