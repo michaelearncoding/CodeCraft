@@ -20,6 +20,10 @@ struct PerfectBFGF {
         this->outlooking = outlooking;
     }
 
+    bool operator==( const PerfectBFGF & girl) const{
+        return this->Name == girl.Name;
+    }
+
 };
 
 
@@ -29,6 +33,11 @@ struct Girls {
     void operator+=(PerfectBFGF& people) {
         this->myGirls.push_back(people);
     }
+
+    void operator-=(PerfectBFGF& people) {
+        this->myGirls.remove(people);
+    }
+
 };
 
 
@@ -58,6 +67,24 @@ struct Point {
     int x;
     int y;
 };
+
+// for showing the Initializing Objects
+/*
+ * Definition: Assigning initial values to an object's data members when it is created.
+*Ways to Initialize:
+Default initialization (no arguments).
+Parameterized initialization (with arguments).
+Using a Member Initializer List (MIL).
+ *
+ *
+ */
+class PointFake {
+public:
+    int x, y;
+    PointFake(int x = 0, int y = 0) : x(x), y(y) {} // MIL - Member Initializer List (MIL).
+};
+
+
 //
 // class Point {
 //
@@ -121,8 +148,20 @@ void increment_passed_by_pointer (int *x) {
 
 
 
+// Overload operator<< for PointFake
+ostream& operator<<(ostream& COUT, const PointFake& point) {
+    COUT << "PointFake(" << point.x << ", " << point.y << ")";
+    return COUT;
+}
+
+
 int main() {
 
+
+
+    PointFake p1;         // Default initialization
+    PointFake p2(10, 20); // Parameterized initialization
+    std::cout << p1 <<endl; // Output:PointFake(0, 0)
 
 // below example is showing how to use the operator overloading in C++
 
@@ -140,6 +179,7 @@ int main() {
     myGirls += gf1;  // This will call the overloaded += operator to add gf1 to myGirls
     // the above Girls myGirls will be diretly ref by the " operator+=  " with the key wrod "this"
     myGirls += gf2;
+    myGirls -= gf2;
     cout << myGirls;
 
 
