@@ -196,9 +196,71 @@ public:
 
 
 
+// Member Operators
+class MOEPoint {
+public:
+    int x, y;
+    MOEPoint(int x = 0, int y = 0) : x(x), y(y) {}
+    MOEPoint operator+(const MOEPoint& other) const {
+        return MOEPoint(x + other.x, y + other.y);
+    }
+};
+
+
+
+// Arrays of Objects
+// Member operators are overloaded operators defined as member functions of a class.
+
+class AddPoint {
+public:
+    int x, y;
+    AddPoint(int x = 0, int y = 0) : x(x), y(y) {}
+    Point operator+(const Point& other) const {
+        return Point(x + other.x, y + other.y);
+    }
+};
+
+// Static with OOP
+// static members belong to the class,
+// not individual objects, and are shared across all instances.
+class Counter {
+public:
+    static int count; // Shared across all objects
+    Counter() { count++; }
+};
+int Counter::count = 0; // Define static member
+// In C++, static members of a class are shared across all instances of the class
+// and belong to the class itself, not to any specific object.
+// However, they must be defined outside the class to allocate memory for them.
+
+
+// Constant Objects
+class ConstPoint {
+public:
+    int x, y;
+    ConstPoint(int x = 0, int y = 0) : x(x), y(y) {}
+    int getX() const { return x; } // Const member function
+    int getY() const { return y; } // Const member function
+};
+
+
 
 
 int main() {
+
+
+    const ConstPoint pp(10, 20);
+    // p.x = 30; // Error: Cannot modify a const object
+    std::cout << pp.getX()<<endl; // Allowed
+
+
+
+
+
+    //  Arrays of Objects
+    // Arrays can store multiple objects of a class.
+    AddPoint addpoint[3] = {AddPoint(1, 2), AddPoint(3, 4), AddPoint(5, 6)};
+
 
     PointX p1x(10, 20), p2x(5, 15);
     PointX p3x = p1x+ p2x; // Uses the overloaded + operator
