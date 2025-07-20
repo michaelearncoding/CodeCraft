@@ -176,9 +176,34 @@ ExampleCopyConstructors obj1(10);
 ExampleCopyConstructors obj2 = obj1; // Calls copy constructor
 
 
+class PointX{
+public:
+    int x, y;
+
+    PointX(int x = 0, int y = 0) : x(x), y(y) {}
+
+    // Overload + operator
+    PointX operator+(const PointX& other) const {
+        return PointX(x + other.x, y + other.y);
+    }
+
+    // Overload == operator
+    bool operator==(const PointX& other) const {
+        return x == other.x && y == other.y;
+    }
+};
+
+
+
+
 
 
 int main() {
+
+    PointX p1x(10, 20), p2x(5, 15);
+    PointX p3x = p1x+ p2x; // Uses the overloaded + operator
+    std::cout << "Point p3: (" << p3x.x << ", " << p3x.y << ")" << std::endl; // Output: (15, 35)
+
 
 
 
