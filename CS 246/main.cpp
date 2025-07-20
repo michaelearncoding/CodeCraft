@@ -155,6 +155,29 @@ ostream& operator<<(ostream& COUT, const PointFake& point) {
 }
 
 
+// 定义：拷贝构造函数用于创建一个新对象，并将其初始化为现有对象的副本。
+class ExampleCopyConstructors {
+public:
+
+    int* data;
+
+    ExampleCopyConstructors(int value) {
+        data = new int(value);
+    }
+
+    ExampleCopyConstructors(const ExampleCopyConstructors& other) {
+        data = new int(*other.data);
+    } // Deep copy
+
+    ~ExampleCopyConstructors() { delete data; }
+};
+
+ExampleCopyConstructors obj1(10);
+ExampleCopyConstructors obj2 = obj1; // Calls copy constructor
+
+
+
+
 int main() {
 
 
