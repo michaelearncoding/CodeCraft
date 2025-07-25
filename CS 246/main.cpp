@@ -363,10 +363,40 @@ public:
 
 
 
+class Point_ {
+public:
+    int x, y;
 
+    Point_ (int x, int y) : x(x), y(y) {}
+
+    void display() {
+        cout << "Point(" << x << ", " << y << ")" << endl;
+    }
+};
 
 
 int main() {
+
+    // 为什么是 Point_* ptr = &p; 而不是 直接 Point_* ptr = p;
+    // 在 C++ 中，Point_* ptr = &p; 是正确的，
+    // 因为 ptr 是一个指向 Point_ 对象的指针，而 &p 是 p 的地址。以下是详细解释：
+    Point_ p_num(10, 20);      // 创建一个对象
+    Point_* ptr_num = &p_num;      // 创建一个指向对象的指针
+
+    //
+    // ptr is a pointer to a Point_ object
+    // .
+    // &p
+    // gives the memory address of the object p
+    // .
+    // This assigns the address of p to the pointer p
+
+    // 使用 -> 访问成员
+    ptr_num->x = 30;          // 修改 x 的值
+    ptr_num->y = 40;          // 修改 y 的值
+    ptr_num->display();       // 调用成员函数
+
+
 
     Base* basePtr;
     Derived derivedObj;
