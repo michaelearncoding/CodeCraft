@@ -311,8 +311,84 @@ public:
     void honk() { std::cout << "Car is honking" << std::endl; }
 };
 
+//Polymorphism
+// Definition: Polymorphism allows objects of different derived classes
+// to be treated as objects of a common base class,
+// enabling dynamic behavior.
+
+class Animal {
+public:
+    void eat() { std::cout << "This animal eats food." << std::endl; }
+    // Declared using the virtual keyword in the base class.
+
+    // Definition: Virtual methods are member functions in a base class
+    //  that can be overridden in derived classes.
+    //  They enable run-time polymorphism.
+
+    virtual void sound() { std::cout << "Animal makes a sound." << std::endl; }
+    //Allows the derived class to provide its own implementation.
+    // The function to be called is determined at runtime using a virtual table (vtable).
+};
+
+class Dog : public Animal { // Dog inherits from Animal
+public:
+    void bark() { std::cout << "The dog barks." << std::endl; }
+    void sound() override { std::cout << "Dog barks." << std::endl; }
+};
+
+class Cat : public Animal {
+public:
+    void sound() override { std::cout << "Cat meows." << std::endl; }
+};
+
+
+// Virtual Methods
+class Base {
+public:
+    virtual void show() { std::cout << "Base class method." << std::endl; }
+};
+
+class Derived : public Base {
+public:
+    void show() override { std::cout << "Derived class method." << std::endl; }
+};
+
+//  在 C++ 中，->
+//  是成员访问运算符，用于通过指针访问对象的成员。
+// 它的作用是简化对指针指向的对象成员的访问。
+
+// 访问类或结构体的成员： 如果有一个指针指向一个对象，
+//  可以使用 -> 来访问该对象的成员，
+// 而不是先解引用指针再使用 . 运算符。
+
+
+
+
+
 
 int main() {
+
+    Base* basePtr;
+    Derived derivedObj;
+    basePtr = &derivedObj;
+    basePtr->show(); // Output: Derived class method.
+
+
+    Animal* animal;
+    Cat cat;
+
+    // Inheritance
+    Dog dog;
+    dog.eat();  // Inherited from Animal
+    dog.bark(); // Defined in Dog
+
+    // 俗称变态 -》 变换形态。。。
+    animal = &dog;
+    animal->sound(); // Output: Dog barks.
+
+    // 俗称变态。。。
+    animal = &cat;
+    animal->sound(); // Output: Cat meows.
 
 
     const ConstPoint pp(10, 20);
