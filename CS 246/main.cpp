@@ -245,6 +245,72 @@ public:
 
 
 
+class BankAccount {
+private:
+    double balance; // Encapsulated data
+
+public:
+    BankAccount(double initialBalance) : balance(initialBalance) {}
+
+    void deposit(double amount) {
+        if (amount > 0) balance += amount;
+    }
+
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) balance -= amount;
+    }
+
+    double getBalance() const { return balance; } // Controlled access
+};
+
+
+//2. Composition
+// Definition: A "has-a" relationship where one class contains another class
+// as a part of its implementation.
+// The contained object is strongly dependent on the container.
+// Key Point: If the container is destroyed, the contained object is also destroyed.
+class Engine {
+public:
+    void start() { std::cout << "Engine started" << std::endl; }
+};
+
+class Car {
+private:
+    Engine engine; // Composition
+public:
+    void start() { engine.start(); }
+};
+
+
+
+//3. Aggregation
+// Key Point: If the container is destroyed, the contained object can still exist.
+
+class Engine2 {
+public:
+    void start() { std::cout << "Engine started" << std::endl; }
+};
+
+class Car2 {
+private:
+    Engine2* engine; // Aggregation (pointer to an external Engine object)
+public:
+    Car2(Engine2* eng) : engine(eng) {}
+    void start() { engine->start(); }
+};
+
+
+// 4. Inheritance
+class Vehicle {
+public:
+    void move() { std::cout << "Vehicle is moving" << std::endl; }
+};
+
+class Car3 : public Vehicle { // Inheritance
+public:
+    void honk() { std::cout << "Car is honking" << std::endl; }
+};
+
 
 int main() {
 
@@ -252,9 +318,6 @@ int main() {
     const ConstPoint pp(10, 20);
     // p.x = 30; // Error: Cannot modify a const object
     std::cout << pp.getX()<<endl; // Allowed
-
-
-
 
 
     //  Arrays of Objects
@@ -265,8 +328,6 @@ int main() {
     PointX p1x(10, 20), p2x(5, 15);
     PointX p3x = p1x+ p2x; // Uses the overloaded + operator
     std::cout << "Point p3: (" << p3x.x << ", " << p3x.y << ")" << std::endl; // Output: (15, 35)
-
-
 
 
     PointFake p1;         // Default initialization
