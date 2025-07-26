@@ -450,10 +450,39 @@ public:
 // Move Constructor: Transfers ownership of resources from one object to another, avoiding deep copies.
 
 
+// Iterator Design Pattern
+// Purpose: Provides a way to sequentially access elements
+// in a collection without exposing its internal structure.
+class Iterator {
+public:
+    virtual bool hasNext() = 0;
+    virtual int next() = 0;
+};
+
+class VectorIterator : public Iterator {
+    vector<int>& data;
+    size_t index = 0;
+
+public:
+    VectorIterator(vector<int>& vec) : data(vec) {}
+
+    bool hasNext() override { return index < data.size(); }
+    int next() override { return data[index++]; }
+};
+
+
+
+
+
+
+
 
 
 int main() {
 
+    vector<int> numbers = {1, 2, 3};
+    VectorIterator it(numbers);
+    while (it.hasNext()) cout << it.next() << " " <<endl;
 
     Base_Variant obj1_variant(10);
 
