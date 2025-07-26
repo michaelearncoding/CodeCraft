@@ -375,7 +375,109 @@ public:
 };
 
 
+
+// Definition: An abstract class in C++ is a class that cannot be instantiated
+// and is designed to be a base class for other classes. It contains at least one pure virtual function.
+class Shape {
+public:
+
+    // Virtual Destructors
+    virtual void draw() const = 0; // Pure virtual function
+    // 避免资源泄漏的方法1
+    virtual ~Shape()  { cout << "Shape Destructor" << endl; }        // Virtual destructor
+    // the destructor of the derived class is called first,
+    //followed by the base class destructor.
+
+};
+
+
+class Circle : public Shape {
+public:
+    void draw() const override { cout << "Drawing Circle" << endl; }
+
+    // 避免资源泄漏的方法2
+    ~Circle() { cout << "Circle Destructor" << endl; }
+};
+
+
+// Inheritance and Copy/Move
+//
+// Inheritance: Allows a derived class to inherit members and behavior from a base class.
+
+// Copy Constructor: Creates a copy of an object. Must be explicitly defined for deep copies.
+
+// Move Constructor: Transfers ownership of resources from one object to another,
+// avoiding deep copies.
+
+class Base_Variant {
+public:
+    int* data;
+    // Base_Variant(int value): 普通构造函数，用于动态分配内存并初始化 data。
+
+    // 使用 成员初始化列表
+    // 动态分配内存并将值赋给 data
+    Base_Variant(int value) : data(new int(value)) {}
+
+
+    Base_Variant(const Base_Variant& other) {
+        data = new int(*other.data); // 分配新内存，并将 other.data 指向的值复制到新内存中。
+    } // Copy constructor
+    // 深拷贝避免了多个对象共享同一块内存，防止潜在的内存管理问题。
+
+
+    // A shallow copy creates a new object, but it does not recursively copy the objects that
+    // the original object references. Instead, it copies references to those objects.
+    // This means that changes to mutable objects inside the original will also affect the shallow copy.
+
+    // Base_Variant&&：右值引用，表示可以安全地“窃取”资源。
+    // data(other.data)：将 other 的资源转移到当前对象。
+    // noexcept：声明此函数不会抛出异常，优化性能。
+    // 声明此函数不会抛出异常，优化性能。
+    Base_Variant(Base_Variant&& other) noexcept : data(other.data)
+    { other.data = nullptr; } // Move constructor
+    // other.data = nullptr：将 other 的指针置空，防止析构时重复释放内存。
+    // 用于移动语义，转移资源的所有权。
+
+    ~Base_Variant() { delete data; }
+    // delete data：释放 data 指向的内存。
+
+
+};
+
+
+// Inheritance: Allows a derived class to inherit members and behavior from a base class.
+// Copy Constructor: Creates a copy of an object. Must be explicitly defined for deep copies.
+// Move Constructor: Transfers ownership of resources from one object to another, avoiding deep copies.
+
+
+
+
 int main() {
+
+
+    Base_Variant obj1_variant(10);
+
+    Base_Variant obj2_variant = obj1_variant; // Copy constructor
+
+    Base_Variant obj3_variant = move(obj1_variant); // Move constructor
+
+    cout << *obj2_variant.data << endl; // Output: 10
+    cout << (obj1_variant.data == nullptr) << endl; // Output: 1 (true)
+
+
+    // Abstract Classes
+    // Definition: An abstract class in C++ is a class
+    // that cannot be instantiated and is designed
+    // to be a base class for other classes. It contains at least one pure virtual function.
+    Shape* shape = new Circle();
+    shape->draw(); // Output: Drawing Circle
+    // Purpose: Enforces derived classes to implement specific behavior.
+    delete shape;
+    // 他会先删除circle，然后才是shape
+
+
+    // Virtual Destructors
+
 
     // 为什么是 Point_* ptr = &p; 而不是 直接 Point_* ptr = p;
     // 在 C++ 中，Point_* ptr = &p; 是正确的，
