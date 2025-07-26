@@ -471,8 +471,64 @@ public:
 };
 
 
+// Observer Design Pattern
+// Purpose: Establishes a one-to-many dependency where changes in one object
+// notify all dependent objects.
+
+class Observer {
+public:
+    virtual void update(int value) = 0;
+};
+
+class Subject {
+    vector<Observer*> observers;
+    int state;
+
+public:
+    void attach(Observer* obs) { observers.push_back(obs); }
+    void setState(int value) { state = value; notify(); }
+    void notify() { for (Observer* obs : observers) obs->update(state); }
+};
+class ConcreteObserver : public Observer {
+    string name;
+
+public:
+    ConcreteObserver(string n) : name(n) {}
+    void update(int value) override { cout << name << " received: " << value << endl; }
+};
 
 
+// Decorator Design Pattern
+// Purpose: Dynamically adds new behavior to objects by wrapping them in decorator classes.
+// Example:
+class Component {
+public:
+    virtual void operation() = 0;
+    virtual ~Component() = default;
+};
+
+class ConcreteComponent : public Component {
+public:
+    void operation() override { cout << "ConcreteComponent operation" << endl; }
+};
+
+class Decorator : public Component {
+protected:
+    Component* component;
+
+public:
+    Decorator(Component* comp) : component(comp) {}
+    void operation() override { component->operation(); }
+};
+
+class ConcreteDecorator : public Decorator {
+public:
+    ConcreteDecorator(Component* comp) : Decorator(comp) {}
+    void operation() override {
+        Decorator::operation();
+        cout << "ConcreteDecorator additional behavior" << endl;
+    }
+};
 
 
 
@@ -480,6 +536,23 @@ public:
 
 int main() {
 
+
+    // Decorator Design Pattern
+    Component* component = new ConcreteComponent();
+    Component* decorated = new ConcreteDecorator(component);
+    decorated->operation();
+    delete decorated;
+    delete component;
+
+
+    // observer design pattern
+    Subject subject;
+    ConcreteObserver obs1("Observer1"), obs2("Observer2");
+    subject.attach(&obs1);
+    subject.attach(&obs2);
+    subject.setState(10);
+
+    // iterator design pattern
     vector<int> numbers = {1, 2, 3};
     VectorIterator it(numbers);
     while (it.hasNext()) cout << it.next() << " " <<endl;
