@@ -662,6 +662,13 @@ public:
 };
 
 
+
+
+
+
+
+
+
 int main() {
 
 
@@ -678,6 +685,35 @@ int main() {
      basePtr2= &derivedObj2;
     basePtr2->show(); // Output: Derived class method. check!
 
+
+
+/*
+    *std::variant
+    std::variant is a type-safe union introduced in C++17.
+    It can hold one value from a set of predefined types.
+ *
+ */
+
+    variant<int, double, string> var;
+
+    var = 10; // Holds an int
+    cout << get<int>(var) << endl;
+
+    var = 3.14; // Holds a double
+    cout << get<double>(var) << endl;
+
+    var = "Hello"; // Holds a string
+    cout << get<string>(var) << endl;
+
+    // Check the active type
+    if (holds_alternative<int>(var)) {
+        cout << "Variant holds an int" << endl;
+    }
+
+    // Check the active type
+    if (holds_alternative<string>(var)) {
+        cout << "Variant holds an string" << endl;
+    }
 
     // const_cast:
     // Used to add or remove const or volatile qualifiers.
