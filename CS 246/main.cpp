@@ -650,7 +650,33 @@ public:
 };
 
 
+class Base_last {
+public:
+    virtual void show() { cout << "Base class method." << endl; }
+    virtual ~Base_last() {} // Virtual destructor for proper cleanup
+};
+
+class Derived_last : public Base_last {
+public:
+    void show() override { cout << "Derived class method." << endl; }
+};
+
+
 int main() {
+
+
+     //How Virtual Methods Work
+    /* Virtual methods enable runtime polymorphism in C++.
+     * They allow derived classes to override base class methods,
+     * and the correct method is called based on the actual object type, not the pointer type.
+     *
+     */
+   // How Virtual Methods Work
+    Base_last* basePtr2;
+    Derived_last derivedObj2;
+
+     basePtr2= &derivedObj2;
+    basePtr2->show(); // Output: Derived class method. check!
 
 
     // const_cast:
