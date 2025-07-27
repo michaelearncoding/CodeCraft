@@ -685,10 +685,48 @@ public:
 #include <vector>
 #include <algorithm>
 
+class MultiplyBy {
+    int factor;
+public:
+    MultiplyBy(int f) : factor(f) {}
+    int operator()(int x) const { return x * factor; }
+};
+
+
+#include <ranges>
 
 
 
 int main() {
+
+    // Range Abstraction
+    // Range abstraction simplifies working with ranges of elements in containers.
+    //  C++20 introduced ranges with the <ranges> library
+    vector<int> nums_range = {1, 2, 3, 4};
+    // Filter and transform using ranges
+    for (int x : nums_range | ranges::views::filter([](int x) { return x % 2 == 0; })
+                      | ranges::views::transform([](int x) { return x * 2; })) {
+        cout << x << " "<< endl; // Output: 4 8
+                      }
+
+    vector<int>::iterator it_last;
+    for (it_last = nums_range.begin(); it_last != nums_range.end(); ++it_last) {
+        cout << *it_last << " "; // Output: 1 2 3 4
+    }
+
+    // Function Objects
+    // Function objects (functors) are objects that can be called like functions. T
+    // hey are created by overloading the operator() in a class.
+    vector<int> nums_list = {1, 2, 3, 4};
+    MultiplyBy multiplyBy2(2);
+    for (int num : nums_list) {
+        cout << multiplyBy2(num) << " "<< endl; // Output: 2 4 6 8
+    }
+
+
+
+
+
 
     // The Algorithm Library
     vector<int> nums_libary= {5, 2, 8, 1, 3};
