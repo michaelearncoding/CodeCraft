@@ -3,6 +3,7 @@
 #include "greet.h"
 #include<string>
 #include<list>
+#include <map>
 using namespace std;
 
 
@@ -530,11 +531,156 @@ public:
     }
 };
 
+int divide(int a, int b) {
+    if (b == 0) throw runtime_error("Division by zero");
+    return a / b;
+}
+
+class Product {
+public:
+    virtual void use() = 0;
+    virtual ~Product() = default;
+};
+
+class ConcreteProductA : public Product {
+public:
+    void use() override { cout << "Using Product A" << endl; }
+};
+
+class ConcreteProductB : public Product {
+public:
+    void use() override { cout << "Using Product B" << endl; }
+};
+
+class Factory {
+public:
+    virtual Product* createProduct() = 0;
+};
+
+class FactoryA : public Factory {
+public:
+    Product* createProduct() override { return new ConcreteProductA(); }
+};
+
+class FactoryB : public Factory {
+public:
+    Product* createProduct() override { return new ConcreteProductB(); }
+};
+
+// Template Method Design Pattern
+// Purpose: Defines the skeleton of an algorithm in a base class,
+// allowing subclasses to override specific steps.
 
 
+class AbstractClass {
+public:
+    void templateMethod() {
+        step1();
+        step2();
+    }
+    virtual void step1() = 0;
+    virtual void step2() = 0;
+};
+
+class ConcreteClass : public AbstractClass {
+public:
+    void step1() override { cout << "Step 1" << endl; }
+    void step2() override { cout << "Step 2" << endl; }
+};
+
+
+// Non-Virtual Interface (NVI) Idiom
+// Purpose: Enforces a consistent interface by making public
+// methods non-virtual and delegating to private virtual methods.
+
+class Base_M {
+public:
+    void interface() { implementation(); }
+private:
+    virtual void implementation() = 0;
+};
+
+class Derived_M : public Base_M {
+private:
+    void implementation() override { cout << "Derived implementation" << endl; }
+};
+
+
+
+#include <fstream>
+
+class FileHandler {
+    ifstream file;
+
+public:
+    FileHandler(const string& filename) {
+        file.open(filename);
+        if (!file.is_open()) {
+            throw runtime_error("Failed to open file");
+        }
+    }
+
+    ~FileHandler() {
+        if (file.is_open()) {
+            file.close();
+        }
+    }
+
+    void readFile() {
+        string line;
+        while (getline(file, line)) {
+            cout << line << endl;
+        }
+    }
+};
 
 
 int main() {
+
+    try {
+        FileHandler fh("example.txt");
+        fh.readFile();
+    } catch (const exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+    // Purpose: A C++ associative container that stores key-value pairs in sorted order.
+    // new data structure :
+    // std::map
+    // Purpose: A C++ associative container that stores key-value pairs in sorted order.
+    map<string, int> scores;
+    scores["Alice"] = 90;
+    scores["Bob"] = 85;
+
+    for (const auto& [key, value] : scores) {
+        cout << key << ": " << value << endl;
+    }
+
+
+    Derived_M obj;
+    obj.interface();
+
+
+
+    Factory* factory = new FactoryA();
+    Product* product = factory->createProduct();
+    product->use();
+    delete product;
+    delete factory;
+
+
+    // Exceptions
+    // Purpose: Handle runtime errors or unexpected conditions in a controlled manner.
+    try {
+        cout << divide(10, 0) << endl;
+    } catch (const exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+
+    // Factory Method Design Pattern
+    // Purpose: Defines an interface for creating objects
+    // but lets subclasses decide which class to instantiate.
+
 
 
     // Decorator Design Pattern
