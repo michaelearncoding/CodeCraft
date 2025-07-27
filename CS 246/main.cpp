@@ -663,15 +663,60 @@ public:
 
 
 
+class A {
+public:
+    void show() { cout << "Class A" << endl; }
+};
+
+class B {
+public:
+    void show() { cout << "Class B" << endl; }
+};
+
+class C : public A, public B {
+public:
+    void display() {
+        A::show(); // Resolves ambiguity
+        B::show();
+    }
+};
 
 
+#include <vector>
+#include <algorithm>
 
 
 
 
 int main() {
 
+    // The Algorithm Library
+    vector<int> nums_libary= {5, 2, 8, 1, 3};
 
+    // Sort the vector
+    sort(nums_libary.begin(), nums_libary.end());
+
+    // Find an element
+    auto findit = find(nums_libary.begin(), nums_libary.end(), 8);
+
+    // Print the sorted vector
+    for (int num : nums_libary) cout << num << " "; // Output: 1 2 3 5 8
+    cout << endl;
+
+    if (findit != nums_libary.end()) cout << "Found: " << *findit << endl; // Output: Found: 8
+    else cout << "Not found" << endl;
+
+    // Multiple Inheritance
+    C objMul;
+    objMul.display();
+
+
+    /*
+    *A vtable is created for the class with virtual methods.
+Each object of the class has a pointer to the vtable.
+At runtime, the vtable is used to resolve the correct method to call.
+     *
+     */
      //How Virtual Methods Work
     /* Virtual methods enable runtime polymorphism in C++.
      * They allow derived classes to override base class methods,
