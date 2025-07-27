@@ -634,8 +634,74 @@ public:
     }
 };
 
+// Smart Pointers
+
+// std::unique_ptr: Exclusive ownership of a resource.
+// std::shared_ptr: Shared ownership of a resource.
+// std::weak_ptr: Non-owning reference to a std::shared_ptr.
+#include <memory>
+
+
+class Resource1 {
+public:
+    Resource1() { cout << "Resource acquired" << endl; }
+    ~Resource1() { cout << "Resource released" << endl; }
+    void use() { cout << "Using resource" << endl; }
+};
+
 
 int main() {
+
+
+    // const_cast:
+    // Used to add or remove const or volatile qualifiers.
+    const int a_const_cast = 10;
+    int& b = const_cast<int&>(a_const_cast);
+    b = 20; // Undefined behavior if `a` was truly constant
+
+
+    int a_cast = 42;
+    // Used for low-level, unsafe type conversions (e.g., pointer conversions).
+    void* ptr_cast = reinterpret_cast<void*>(&a_cast);
+    int* intPtr = reinterpret_cast<int*>(ptr_cast);
+
+
+    try {
+        // make_unique 是一种安全的方式来创建 unique_ptr，避免手动使用 new。
+        unique_ptr<Resource1> res = make_unique<Resource1>();
+        // 当 res 超出作用域时，Resource1 的析构函数会自动调用，释放资源
+        res->use(); // Automatically cleaned up when out of scope
+        // // 使用资源
+    } catch (const exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+
+
+
+    // 共享所有权，适用于多个对象共享资源的场景。
+    // 特点: 共享所有权，多个 shared_ptr 可以共享同一个资源。
+    // 作用: 资源会在最后一个 shared_ptr 被销毁时释放。
+    // make_shared 是一种高效的方式来创建 shared_ptr，减少内存分配的开销。
+    shared_ptr<Resource1> sharedRes1 = make_shared<Resource1>();
+    shared_ptr<Resource1> sharedRes2 = sharedRes1; // Shared ownership
+    // sharedRes1 和 sharedRes2 共享同一个 Resource1 实例，引用计数会自动管理资源的生命周期。
+    sharedRes1->use();
+    sharedRes2->use();
+
+
+
+    // 特点: 非拥有型指针，不影响资源的引用计数。
+    // 作用: 用于避免循环引用。
+    // 非拥有型指针，避免循环引用。
+    weak_ptr<Resource1> weakRes = sharedRes1; // Non-owning reference
+    if (auto lockedRes = weakRes.lock()) {
+        lockedRes->use();
+    }
+
+
+
+
 
     try {
         FileHandler fh("example.txt");
